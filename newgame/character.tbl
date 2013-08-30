@@ -66,4 +66,6 @@ cstand5			p	0	char_map	58	-	0	0	31	48
 ctowawalk10		p	0	char_map	59	-	0	0	31	48
 
 walkf	mtowawalk8;mtowawalk7;mtowawalk8	0.3
-walkb	mtowawalk1;mtowawalk2	.005
+walkb	mtowawalk2;mtowawalk1;mtowawalk2	0.3
+walkl	mtowawalk4;mtowawalk3;mtowawalk4	0.3
+walkr	mtowawalk6;mtowawalk5;mtowawalk6	0.3

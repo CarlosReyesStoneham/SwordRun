@@ -40,6 +40,7 @@ public class Game extends StdGame {
 		defineMedia("outdoors.tbl");
 		defineMedia("character.tbl");
 		defineMedia("game.tbl");
+		defineMedia("link.tbl");
 		//fillBG("grass1");
 		setBGImage("grass1");
 		setMouseCursor(new Cursor(Cursor.CROSSHAIR_CURSOR));
@@ -56,7 +57,7 @@ public class Game extends StdGame {
 
 	public void initNewLife() {
 		removeObjects(null,0);
-		new Hero(pfWidth()/2,pfHeight()-32,5);
+		new Hero(pfWidth()/2,pfHeight()-50,5);
 		new Enemy(4, 400, .4);
 		
 	}
@@ -114,40 +115,87 @@ public class Game extends StdGame {
 		public Hero(double x,double y,double speed) {
 			super("hero",true,x,y,1,"mstand4", 0,0,speed,speed,-1);
 		}
+		String lastGraphic = "mstand4";
+		int orientation = 12; //12-Forward, 3-Right, 6-Down, 9-Left
 		public void move() {
 			boolean flag=false;
 			setDir(0,0);
 			yspeed=2.5;
 			xspeed=2.5;
-			if (getKey(key_left)  && x > xspeed){
-				setGraphic("mstand2");
+			
+			//Basic Movement
+			if (getKey(KeyLeft)  && x > xspeed){
+				setGraphic("walkl");
+				lastGraphic="mstand2";
+				orientation = 9;
 				xdir=-1;
+				flag=true;
 			}
-			if (getKey(key_right) && x < pfWidth()-32-yspeed){
-				setGraphic("mstand3");
+			if (getKey(KeyRight) && x < pfWidth()-32-yspeed){
+				setGraphic("walkr");
+				lastGraphic="mstand3";
+				orientation = 3;
 				xdir=1;
+				flag=true;
 			}
-			if (getKey(key_up) && y > yspeed){
+			if (getKey(KeyUp) && y > yspeed){
 				setGraphic("walkf");
-				//new JGObject ("walkf", true, x, y, 0, "walkf", 0, 0, 2);
+				lastGraphic="mstand4";
+				orientation = 12;
 				ydir=-1;
 				flag=true;
 			}
-			if (getKey(key_down) && y < pfHeight()-32-xspeed){
-				setGraphic("mstand1");
-				//new JGObject ("walkb", true, x, y, 0, "walkb", 0, 0, 2);
+			if (getKey(KeyDown) && y < pfHeight()-32-xspeed){
+				setGraphic("walkb");
+				lastGraphic="mstand1";
+				orientation = 6;
 				ydir=1;
+				flag=true;
 			}
+			
+			//Running
+			if (getKey(KeyLeft) && getKey(KeyShift) && x > xspeed) {
+				xdir=-2;
+				flag=true;
+			}
+			if (getKey(KeyRight) && getKey(KeyShift) && x < pfWidth()-32-yspeed) {
+				xdir=2;
+				flag=true;
+			}
+			if (getKey(KeyUp) && getKey(KeyShift) && y > yspeed) {
+				ydir=-2;
+				flag=true;
+			}
+			if (getKey(KeyDown) && getKey(KeyShift) && y < pfHeight()-32-xspeed) {
+				ydir=2;
+				flag=true;
+			}
+			
+			//Fighting
 			if (getKey(key_fire) && countObjects("bullet",0) < 50) {
-				//new JGObject("bullet",true,x,y,4,"bary", 0,-5, -2);
-				clearKey(key_fire);
+				if (orientation == 9) {
+					new JGObject("bullet", true, x, y, 4, "bary", -5, 0, -2);
+					clearKey(key_fire);
+				}
+				if (orientation == 3) {
+					new JGObject("bullet", true, x, y, 4, "bary", 5, 0, -2);
+					clearKey(key_fire);
+				}
+				if (orientation == 12) {
+					new JGObject("bullet", true, x, y, 4, "bary", 0, -5, -2);
+					clearKey(key_fire);
+				} else {
+					new JGObject("bullet", true, x, y, 4, "bary", 0, 5, -2);
+					clearKey(key_fire);
+				}
+
 			}
 			if (getKey(key_firedown) && countObjects("bullet",0) < 2) {
-				//new JGObject("bullet",true,x,y,4,"bary", 0,-5, -2);
+				new JGObject("bullet",true,x,y,4,"bary", 0,-5, -2);
 				clearKey(key_fire);
 			}
 			if (!flag){
-				setGraphic("mstand4");
+				setGraphic(lastGraphic);
 			}
 		}
 		public void hit(JGObject obj) {
