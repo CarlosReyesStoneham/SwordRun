@@ -5,6 +5,7 @@ import jgame.*;
 import java.awt.Cursor;
 import jgame.JGColor;
 import jgame.platform.*;
+import newgame.Hero;
 
 public class Game extends StdGame {
 	// Establish a virtual play field that is 100 pixels by 100 pixels. All
@@ -26,6 +27,10 @@ public class Game extends StdGame {
 
 	public Game(int width, int height) {
 		initEngine(WIDTH, HEIGHT);
+		
+		setPFSize(52, 40);
+		setViewOffset(1, 1, true);
+		//setPFWrap(true, true, 10, 10);
 	}
 
 	@Override
@@ -35,6 +40,8 @@ public class Game extends StdGame {
 		JGColor green = new JGColor(0, 180, 85);
 		//setCanvasSettings(1, 1, 800, 600, red, black, null);
 		setCanvasSettings(50,38,16,16,red,green,null);
+		
+
 	}
 
 	public void initGame() {
@@ -103,7 +110,7 @@ public class Game extends StdGame {
 	public void initNewLife() {
 		removeObjects(null,0);
 		enemy = new Enemy(4, 380, 2, 'x', "ewalkb", 15);
-		hero = new Hero(pfWidth()/2,pfHeight()-50,5);
+		hero = new Hero(pfWidth()/2,pfHeight()-50,5, this);
 		
 	}
 	
@@ -116,24 +123,38 @@ public class Game extends StdGame {
 		checkCollision(2,1); // enemies hit player
 		checkCollision(4,2); // bullets hit enemies
 		//if (gametime>=500 && countObjects("enemy",0)==0) levelDone();
-//		if (countObjects("enemy",0)==0) levelDone();
-		if (hero.x<=3) {
-			hero.setPos(pfWidth()-50, hero.getLastY());
-			fillBG("pa");
-			for (int i=18; i<pfWidth(); i++){
-				setTile(i, 24, "p4");
-				setTile(i, 25, "p1");
-				setTile(i, 26, "p1");
-				setTile(i, 27, "p5");
-			}
-			enemy = new Enemy(35, 380, .4, 'y', "ewalkr", 15);
+
+		//When Hero goes off the screen to the left
+//		if (hero.x<=3) {
+//			hero.setPos(pfWidth()-50, hero.getLastY());
+//			fillBG("pa");
+//			for (int i=18; i<pfWidth(); i++){
+//				setTile(i, 24, "p4");
+//				setTile(i, 25, "p1");
+//				setTile(i, 26, "p1");
+//				setTile(i, 27, "p5");
+//			}
+//			enemy = new Enemy(35, 380, .4, 'y', "ewalkr", 15);
+//		}
+		//When Hero goes off the screen to the right
+		if (!hero.isOnPF(-40, pfHeight())) {
+			// hero.setPos(0, hero.getLastY());
+//			fillBG("pa");
+//			initMap();
 		}
-		else if (hero.x>=770) {
-			hero.setPos(0, hero.getLastY());
-			fillBG("pa");
-			initMap();
-		}
+		//When Hero goes off the screen at the top
+//		else if (hero.y <= 5) {
+//			hero.setPos(hero.getLastX(), pfHeight()-10);
+//			fillBG("pa");
+//			initMap();
+//		}
+//		else if (hero.y >= pfHeight()-50) {
+//			hero.setPos(hero.getLastX(), 15);
+//			fillBG("pa");
+//			initMap();
+//		}
 	}
+	
 	public void incrementLevel() {
 		score += 50;
 		if (level<7) level++;
@@ -163,8 +184,10 @@ public class Game extends StdGame {
 		}
 		
 		public void move() {
+			
 			double startingX=this.x;
 			double startingY=this.y;
+			
 			
 			if (this.direction=='y') {
 				y += 0.5;
@@ -227,148 +250,5 @@ public class Game extends StdGame {
 	}
 	
 	
-	public class Hero extends JGObject {
-		public Hero(double x,double y,double speed) {
-			super("hero",true,x,y,1,"mstand4", 0,0,speed,speed,-1);
-		}
-		String lastGraphic = "mstand4";
-		int i=0;
-		int orientation = 12; //12-Forward, 3-Right, 6-Down, 9-Left
-		public void move() {
-			boolean flag=false;
-			setDir(0,0);
-			yspeed=2.5;
-			xspeed=2.5;
-			
-			//Basic Movement
-			if (getKey(KeyLeft)  && x > xspeed){
-				setGraphic("walkl");
-				lastGraphic="mstand2";
-				orientation = 9;
-				xdir=-1;
-				flag=true;
-			}
-			if (getKey(KeyRight) && x < pfWidth()-32-yspeed){
-				setGraphic("walkr");
-				lastGraphic="mstand3";
-				orientation = 3;
-				xdir=1;
-				flag=true;
-			}
-			if (getKey(KeyUp) && y > yspeed){
-				setGraphic("walkf");
-				lastGraphic="mstand4";
-				orientation = 12;
-				ydir=-1;
-				flag=true;
-			}
-			if (getKey(KeyDown) && y < pfHeight()-32-xspeed){
-				setGraphic("walkb");
-				lastGraphic="mstand1";
-				orientation = 6;
-				ydir=1;
-				flag=true;
-			}
-			
-			//Running
-			if (getKey(KeyLeft) && getKey(KeyShift) && x > xspeed) {
-				xdir=-2;
-				flag=true;
-			}
-			if (getKey(KeyRight) && getKey(KeyShift) && x < pfWidth()-32-yspeed) {
-				xdir=2;
-				flag=true;
-			}
-			if (getKey(KeyUp) && getKey(KeyShift) && y > yspeed) {
-				ydir=-2;
-				flag=true;
-			}
-			if (getKey(KeyDown) && getKey(KeyShift) && y < pfHeight()-32-xspeed) {
-				ydir=2;
-				flag=true;
-			}
-			
-			if (getKey(KeyEnter) && i==0) {
-				i=1;
-				clearKey(KeyEnter);
-			}
-			if (getKey(KeyEnter)) {
-				i=0;
-				clearKey(KeyEnter);
-			}
-			gun(i);
-			machineGun(i);
-			
-			if (!flag){
-				setGraphic(lastGraphic);
-			}
-		}
-		
-		public void machineGun(int i) {
-			//Machine Gun is fully automatic, you can hold down the fire key.
-			if (getKey(key_fire) && countObjects("bullet",0) < 50 && i==1) {
-				if (orientation == 9) {
-					new JGObject("bullet", true, x, y, 4, "barx", -20, 0, -2);
-					new JGObject("bullet", true, x-10, y-3, 4, "barx", -20, 0, -2);
-					//clearKey(key_fire);
-				}
-				if (orientation == 3) {
-					new JGObject("bullet", true, x, y, 4, "barx", 20, 0, -2);
-					new JGObject("bullet", true, x-8, y-3, 4, "barx", 20, 0, -2);
-					//clearKey(key_fire);
-				}
-				if (orientation == 12) {
-					new JGObject("bullet", true, x, y, 4, "bary", 0, -20, -2);
-					new JGObject("bullet", true, x-3, y-8, 4, "bary", 0, -20, -2);
-					//clearKey(key_fire);
-				}
-				if (orientation == 6){
-					new JGObject("bullet", true, x, y, 4, "bary", 0, 20, -2);
-					new JGObject("bullet", true, x-3, y-8, 4, "bary", 0, 20, -2);
-					//clearKey(key_fire);
-				}
 
-			}
-			if (getKey(key_firedown) && countObjects("bullet",0) < 2) {
-				new JGObject("bullet",true,x,y,4,"bary", 0,-5, -2);
-				clearKey(key_fire);
-			}
-		}
-		
-		public void gun(int i) {
-			//The gun is a semi-automatic weapon, you must press the fire key each time to fire
-			if (getKey(key_fire) && countObjects("bullet",0) < 50 && i==0) {
-				if (orientation == 9) {
-					new JGObject("bullet", true, x, y, 4, "barx", -5, 0, -2);
-					clearKey(key_fire);
-				}
-				if (orientation == 3) {
-					new JGObject("bullet", true, x, y, 4, "barx", 5, 0, -2);
-					clearKey(key_fire);
-				}
-				if (orientation == 12) {
-					new JGObject("bullet", true, x, y, 4, "bary", 0, -5, -2);
-					clearKey(key_fire);
-				}
-				if (orientation == 6){
-					new JGObject("bullet", true, x, y, 4, "bary", 0, 5, -2);
-					clearKey(key_fire);
-				}
-
-			}
-			if (getKey(key_firedown) && countObjects("bullet",0) < 2) {
-				new JGObject("bullet",true,x,y,4,"bary", 0,-5, -2);
-				clearKey(key_fire);
-			}
-		}
-		
-		public void hit(JGObject obj) {
-			if (and(obj.colid,2)) lifeLost();
-			else {
-				score += 5;
-				obj.remove();
-			}
-		}
-		
-	}	
 }
