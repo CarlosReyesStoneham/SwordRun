@@ -69,3 +69,8 @@ walkf	mtowawalk8;mtowawalk7;mtowawalk8	0.3
 walkb	mtowawalk2;mtowawalk1;mtowawalk2	0.3
 walkl	mtowawalk4;mtowawalk3;mtowawalk4	0.3
 walkr	mtowawalk6;mtowawalk5;mtowawalk6	0.3
+
+ewalkf	etowawalk8;etowawalk7;etowawalk8	0.25
+ewalkb	etowawalk2;etowawalk1;etowawalk2	0.25
+ewalkl	etowawalk4;etowawalk3;etowawalk4	0.25
+ewalkr	etowawalk6;etowawalk5;etowawalk6	0.25
