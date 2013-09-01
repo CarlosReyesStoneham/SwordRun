@@ -23,9 +23,7 @@ public class Hero extends JGObject {
 		setDir(0,0);
 		yspeed=2.5;
 		xspeed=2.5;
-		
-		
-		
+
 		if (engine.getKey(JGEngine.KeyLeft)){
 			setGraphic("walkl");
 			lastGraphic="mstand2";

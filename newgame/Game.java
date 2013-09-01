@@ -123,7 +123,19 @@ public class Game extends StdGame {
 		checkCollision(2,1); // enemies hit player
 		checkCollision(4,2); // bullets hit enemies
 		//if (gametime>=500 && countObjects("enemy",0)==0) levelDone();
-
+		
+		if (!hero.isOnPF(-10, -10)) {
+			hero.setPos(pfWidth()-50, hero.getLastY());
+			fillBG("pa");
+			for (int i=18; i<pfWidth(); i++){
+				setTile(i, 24, "p4");
+				setTile(i, 25, "p1");
+				setTile(i, 26, "p1");
+				setTile(i, 27, "p5");
+			}
+			enemy = new Enemy(35, 380, .4, 'y', "ewalkr", 15, this);
+		}
+		
 		//When Hero goes off the screen to the left
 //		if (hero.x<=3) {
 //			hero.setPos(pfWidth()-50, hero.getLastY());
@@ -137,11 +149,11 @@ public class Game extends StdGame {
 //			enemy = new Enemy(35, 380, .4, 'y', "ewalkr", 15);
 //		}
 		//When Hero goes off the screen to the right
-		if (!hero.isOnPF(-40, pfHeight())) {
+//		if (!hero.isOnPF(-40, pfHeight())) {
 			// hero.setPos(0, hero.getLastY());
 //			fillBG("pa");
 //			initMap();
-		}
+//		}
 		//When Hero goes off the screen at the top
 //		else if (hero.y <= 5) {
 //			hero.setPos(hero.getLastX(), pfHeight()-10);
