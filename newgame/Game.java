@@ -110,7 +110,7 @@ public class Game extends StdGame {
 	public void initNewLife() {
 		removeObjects(null,0);
 		enemy = new Enemy(4, 380, 2, 'x', "ewalkb", 15, this);
-		hero = new Hero(pfWidth()/2,pfHeight()-50,5, this);
+		hero = new Hero(pfWidth()/2,pfHeight()-50,5, this, this);
 		
 	}
 	
