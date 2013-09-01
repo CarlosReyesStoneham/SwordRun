@@ -120,70 +120,70 @@ public class Hero extends JGObject {
 		}
 	}
 	
-//	public void machineGun(int i) {
-//		//Machine Gun is fully automatic, you can hold down the fire key.
-//		if (getKey(key_fire) && countObjects("bullet",0) < 50 && i==1) {
-//			if (orientation == 9) {
-//				new JGObject("bullet", true, x, y, 4, "barx", -20, 0, -2);
-//				new JGObject("bullet", true, x-10, y-3, 4, "barx", -20, 0, -2);
-//				//clearKey(key_fire);
-//			}
-//			if (orientation == 3) {
-//				new JGObject("bullet", true, x, y, 4, "barx", 20, 0, -2);
-//				new JGObject("bullet", true, x-8, y-3, 4, "barx", 20, 0, -2);
-//				//clearKey(key_fire);
-//			}
-//			if (orientation == 12) {
-//				new JGObject("bullet", true, x, y, 4, "bary", 0, -20, -2);
-//				new JGObject("bullet", true, x-3, y-8, 4, "bary", 0, -20, -2);
-//				//clearKey(key_fire);
-//			}
-//			if (orientation == 6){
-//				new JGObject("bullet", true, x, y, 4, "bary", 0, 20, -2);
-//				new JGObject("bullet", true, x-3, y-8, 4, "bary", 0, 20, -2);
-//				//clearKey(key_fire);
-//			}
-//
-//		}
-//		if (getKey(key_firedown) && countObjects("bullet",0) < 2) {
+	public void machineGun(int i) {
+		//Machine Gun is fully automatic, you can hold down the fire key.
+		if (engine.getKey(JGEngineInterface.KeyFire) && engine.countObjects("bullet",0) < 50 && i==1) {
+			if (orientation == 9) {
+				new JGObject("bullet", true, x, y, 4, "barx", -20, 0, -2);
+				new JGObject("bullet", true, x-10, y-3, 4, "barx", -20, 0, -2);
+				//clearKey(key_fire);
+			}
+			if (orientation == 3) {
+				new JGObject("bullet", true, x, y, 4, "barx", 20, 0, -2);
+				new JGObject("bullet", true, x-8, y-3, 4, "barx", 20, 0, -2);
+				//clearKey(key_fire);
+			}
+			if (orientation == 12) {
+				new JGObject("bullet", true, x, y, 4, "bary", 0, -20, -2);
+				new JGObject("bullet", true, x-3, y-8, 4, "bary", 0, -20, -2);
+				//clearKey(key_fire);
+			}
+			if (orientation == 6){
+				new JGObject("bullet", true, x, y, 4, "bary", 0, 20, -2);
+				new JGObject("bullet", true, x-3, y-8, 4, "bary", 0, 20, -2);
+				//clearKey(key_fire);
+			}
+
+		}
+//		if (engine.getKey(JGEngine.KeyFiredown) && countObjects("bullet",0) < 2) {
 //			new JGObject("bullet",true,x,y,4,"bary", 0,-5, -2);
 //			clearKey(key_fire);
 //		}
-//	}
+	}
 	
-//	public void gun(int i) {
-//		//The gun is a semi-automatic weapon, you must press the fire key each time to fire
-//		if (getKey(key_fire) && countObjects("bullet",0) < 50 && i==0) {
-//			if (orientation == 9) {
-//				new JGObject("bullet", true, x, y, 4, "barx", -5, 0, -2);
-//				clearKey(key_fire);
-//			}
-//			if (orientation == 3) {
-//				new JGObject("bullet", true, x, y, 4, "barx", 5, 0, -2);
-//				clearKey(key_fire);
-//			}
-//			if (orientation == 12) {
-//				new JGObject("bullet", true, x, y, 4, "bary", 0, -5, -2);
-//				clearKey(key_fire);
-//			}
-//			if (orientation == 6){
-//				new JGObject("bullet", true, x, y, 4, "bary", 0, 5, -2);
-//				clearKey(key_fire);
-//			}
-//
-//		}
-//		if (getKey(key_firedown) && countObjects("bullet",0) < 2) {
+	public void gun(int i) {
+		//The gun is a semi-automatic weapon, you must press the fire key each time to fire
+		if (engine.getKey(JGEngine.KeyFire) && engine.countObjects("bullet",0) < 50 && i==0) {
+			if (orientation == 9) {
+				new JGObject("bullet", true, x, y, 4, "barx", -5, 0, -2);
+				engine.clearKey(JGEngine.KeyFire);
+			}
+			if (orientation == 3) {
+				new JGObject("bullet", true, x, y, 4, "barx", 5, 0, -2);
+				engine.clearKey(JGEngine.KeyFire);
+			}
+			if (orientation == 12) {
+				new JGObject("bullet", true, x, y, 4, "bary", 0, -5, -2);
+				engine.clearKey(JGEngine.KeyFire);
+			}
+			if (orientation == 6){
+				new JGObject("bullet", true, x, y, 4, "bary", 0, 5, -2);
+				engine.clearKey(JGEngine.KeyFire);
+			}
+
+		}
+//		if (JGEngine.getKey(engine.key_firedown) && countObjects("bullet",0) < 2) {
 //			new JGObject("bullet",true,x,y,4,"bary", 0,-5, -2);
-//			clearKey(key_fire);
+//			engine.clearKey(engine.key_fire);
 //		}
-//	}
-//	
-//	public void hit(JGObject obj) {
-//		if (and(obj.colid,2)) lifeLost();
-//		else {
-//			score += 5;
-//			obj.remove();
-//		}
-//	}
+	}
+	
+	public void hit(JGObject obj) {
+		if (and(obj.colid,2)) engine.lifeLost();
+		else {
+			engine.score += 5;
+			obj.remove();
+		}
+	}
 	
 }	
