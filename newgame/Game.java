@@ -1,11 +1,11 @@
 package newgame;
 
 import jgame.*;
-
 import java.awt.Cursor;
 import jgame.JGColor;
 import jgame.platform.*;
 import newgame.Hero;
+import newgame.Enemy;
 
 public class Game extends StdGame {
 	// Establish a virtual play field that is 100 pixels by 100 pixels. All
@@ -109,7 +109,7 @@ public class Game extends StdGame {
 
 	public void initNewLife() {
 		removeObjects(null,0);
-		enemy = new Enemy(4, 380, 2, 'x', "ewalkb", 15);
+		enemy = new Enemy(4, 380, 2, 'x', "ewalkb", 15, this);
 		hero = new Hero(pfWidth()/2,pfHeight()-50,5, this);
 		
 	}
@@ -171,83 +171,83 @@ public class Game extends StdGame {
 	}
 	
 	//These are the enemies
-	public class Enemy extends JGObject {
-		int health = 70;
-		String graphic;
-		char direction;
-		double timer=0;
-		public Enemy(double x, double y, double speed, char direction, String graphic, int health) {
-			super("enemy",true,x,y,
-					2, graphic,
-					speed, speed, -2 );
-			this.direction = direction;
-		}
-		
-		public void move() {
-			
-			double startingX=this.x;
-			double startingY=this.y;
-			
-			
-			if (this.direction=='y') {
-				y += 0.5;
-				
-				y = 0;
-				if (y> pfWidth()) {
-					y = -8;	
-				}
-			}
-			if (this.direction=='x') {
-				x += 0.5;
-				
-				x = 0;
-				if (x > pfWidth()) {
-					x = -8;	
-				}
-			}
-			lurk(startingX, startingY);
-		}
-		
-		public void lurk(double startingX, double startingY) {
-			if (this.direction=='w') {
-				y += -(this.xspeed*2);
-				x = 0;
-				if (y> pfWidth()) {
-					y = -8;	
-				}
-			}
-			if (this.direction=='s') {
-				x = 0;
-				if (y> pfWidth()) {
-					y = -8;	
-				}
-			}
-			if (this.y>=pfHeight()-50) {
-				this.direction = 'w';
-				y += -(this.yspeed);
-				setGraphic("ewalkf");
-			}
-			
-			if (this.y <= 10) {
-				this.direction = 's';
-				y += (this.xspeed);
-				setGraphic("ewalkb");
-				
-			}
-			
-		}
-		
-		public void hit(JGObject o) {
-//			System.out.println(this.health);
-			this.health += -1;
-			if (this.health==0){
-		        new JGObject ("explo", true, x, y, 0, "explo", 0, 0, 32);
-				remove();
-				o.remove();
-				score += 5;
-			}
-		}
-	}
+//	public class Enemy extends JGObject {
+//		int health = 70;
+//		String graphic;
+//		char direction;
+//		double timer=0;
+//		public Enemy(double x, double y, double speed, char direction, String graphic, int health) {
+//			super("enemy",true,x,y,
+//					2, graphic,
+//					speed, speed, -2 );
+//			this.direction = direction;
+//		}
+//		
+//		public void move() {
+//			
+//			double startingX=this.x;
+//			double startingY=this.y;
+//			
+//			
+//			if (this.direction=='y') {
+//				y += 0.5;
+//				
+//				y = 0;
+//				if (y> pfWidth()) {
+//					y = -8;	
+//				}
+//			}
+//			if (this.direction=='x') {
+//				x += 0.5;
+//				
+//				x = 0;
+//				if (x > pfWidth()) {
+//					x = -8;	
+//				}
+//			}
+//			lurk(startingX, startingY);
+//		}
+//		
+//		public void lurk(double startingX, double startingY) {
+//			if (this.direction=='w') {
+//				y += -(this.xspeed*2);
+//				x = 0;
+//				if (y> pfWidth()) {
+//					y = -8;	
+//				}
+//			}
+//			if (this.direction=='s') {
+//				x = 0;
+//				if (y> pfWidth()) {
+//					y = -8;	
+//				}
+//			}
+//			if (this.y>=pfHeight()-50) {
+//				this.direction = 'w';
+//				y += -(this.yspeed);
+//				setGraphic("ewalkf");
+//			}
+//			
+//			if (this.y <= 10) {
+//				this.direction = 's';
+//				y += (this.xspeed);
+//				setGraphic("ewalkb");
+//				
+//			}
+//			
+//		}
+//		
+//		public void hit(JGObject o) {
+////			System.out.println(this.health);
+//			this.health += -1;
+//			if (this.health==0){
+//		        new JGObject ("explo", true, x, y, 0, "explo", 0, 0, 32);
+//				remove();
+//				o.remove();
+//				score += 5;
+//			}
+//		}
+//	}
 	
 	
 
