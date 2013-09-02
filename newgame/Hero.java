@@ -6,6 +6,7 @@ import jgame.platform.JGEngine;
 import jgame.platform.StdGame;
 import jgame.*;
 import newgame.Game;
+import newgame.Block;
 
 public class Hero extends JGObject {
 	public Game engine;
@@ -87,17 +88,23 @@ public class Hero extends JGObject {
 		
 		run(flag);
 		
-		//switch guns
+		//switch weapons
 		if (engine.getKey(JGEngine.KeyEnter) && i==0) {
 			i=1;
+			engine.clearKey(JGEngine.KeyEnter);
+		}
+		if (engine.getKey(JGEngine.KeyEnter) && i==1) {
+			i=2;
 			engine.clearKey(JGEngine.KeyEnter);
 		}
 		if (engine.getKey(JGEngine.KeyEnter)) {
 			i=0;
 			engine.clearKey(JGEngine.KeyEnter);
 		}
-		gun(i);
+		gun(i, "barx", "bary");
 		machineGun(i);
+		//machineGun(i);
+		sword(i);
 		
 		if (!flag){
 			setGraphic(lastGraphic);
@@ -149,42 +156,75 @@ public class Hero extends JGObject {
 			}
 
 		}
-//		if (engine.getKey(JGEngine.KeyFiredown) && countObjects("bullet",0) < 2) {
-//			new JGObject("bullet",true,x,y,4,"bary", 0,-5, -2);
-//			clearKey(key_fire);
-//		}
 	}
 	
-	public void gun(int i) {
+	public void gun(int automatic, String graphicH, String graphicV) {
 		//The gun is a semi-automatic weapon, you must press the fire key each time to fire
 		if (engine.getKey(stdgame.key_fire) && engine.countObjects("bullet",0) < 50 && i==0) {
 			if (orientation == 9) {
-				new JGObject("bullet", true, x, y, 4, "barx", -5, 0, -2);
+				new JGObject("bullet", true, x, y, 4, graphicH, -5, 0, -2);
 				engine.clearKey(stdgame.key_fire);
 			}
 			if (orientation == 3) {
-				new JGObject("bullet", true, x, y, 4, "barx", 5, 0, -2);
+				new JGObject("bullet", true, x, y, 4, graphicH, 5, 0, -2);
 				engine.clearKey(stdgame.key_fire);
 			}
 			if (orientation == 12) {
-				new JGObject("bullet", true, x, y, 4, "bary", 0, -5, -2);
+				new JGObject("bullet", true, x, y, 4, graphicV, 0, -5, -2);
 				engine.clearKey(stdgame.key_fire);
 			}
 			if (orientation == 6){
-				new JGObject("bullet", true, x, y, 4, "bary", 0, 5, -2);
+				new JGObject("bullet", true, x, y, 4, graphicV, 0, 5, -2);
 				engine.clearKey(stdgame.key_fire);
 			}
 
 		}
-//		if (JGEngine.getKey(engine.key_firedown) && countObjects("bullet",0) < 2) {
-//			new JGObject("bullet",true,x,y,4,"bary", 0,-5, -2);
-//			engine.clearKey(engine.key_fire);
-//		}
+	}
+	
+	// Throw sword
+	public void sword(int i) {
+
+		if (engine.getKey(stdgame.key_fire) && i==2) {
+			if (orientation == 9) {
+				new JGObject("sword4", true, x, y, 4, "swing1", -5, 0, -2);
+				engine.clearKey(stdgame.key_fire);
+			}
+			if (orientation == 3) {
+				new JGObject("sword4", true, x, y, 4, "swing1", 5, 0, -2);
+				engine.clearKey(stdgame.key_fire);
+			}
+			if (orientation == 12) {
+				new JGObject("sword4", true, x, y, 4, "swing1", 0, -5, -2);
+				engine.clearKey(stdgame.key_fire);
+			}
+			if (orientation == 6){
+				new JGObject("sword4", true, x, y, 4, "swing1", 0, 5, -2);
+				engine.clearKey(stdgame.key_fire);
+			}
+
+		}
 	}
 	
 	public void hit(JGObject obj) {
-		if (and(obj.colid,2)) engine.lifeLost();
+		if (and(obj.colid,2) && obj instanceof Enemy) {
+			engine.lifeLost();
+		}
+		else if (and(obj.colid,2) && obj instanceof Block){
+			if (this.orientation == 9) {
+				obj.x  -= 5;
+			}
+			else if (this.orientation == 12) {
+				obj.y -= 5;
+			}
+			else if (this.orientation == 3) {
+				obj.x += 5;
+			}
+			else if (this.orientation == 6) {
+				obj.y += 5;
+			}
+		}
 		else {
+			System.out.println(obj.getName());
 			engine.score += 5;
 			obj.remove();
 		}

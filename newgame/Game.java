@@ -19,6 +19,7 @@ public class Game extends StdGame {
 	
 	Hero hero = null;
 	Enemy enemy = null;
+	Block block = null;
 
 
 	public Game() {
@@ -50,6 +51,8 @@ public class Game extends StdGame {
 		defineMedia("character.tbl");
 		defineMedia("game.tbl");
 		setBGImage("grass1");
+		defineMedia("weapon.tbl");
+
 		initMap();
 		setMouseCursor(new Cursor(Cursor.CROSSHAIR_CURSOR));
 
@@ -111,6 +114,7 @@ public class Game extends StdGame {
 		removeObjects(null,0);
 		enemy = new Enemy(4, 380, 2, 'x', "ewalkb", 15, this);
 		hero = new Hero(pfWidth()/2,pfHeight()-50,5, this, this);
+		block = new Block(200, 100, "block1", this, hero);
 		
 	}
 	
@@ -123,28 +127,51 @@ public class Game extends StdGame {
 		checkCollision(2,1); // enemies hit player
 		checkCollision(4,2); // bullets hit enemies
 		//if (gametime>=500 && countObjects("enemy",0)==0) levelDone();
-		
+		checkPosition();
+	}
+	
+	public void checkPosition() {
 		if (!hero.isOnPF(-10, -10) && hero.orientation==9) {
 			hero.setPos(pfWidth()-50, hero.getLastY());
 			fillBG("pa");
-			for (int i=18; i<pfWidth(); i++){
-				setTile(i, 24, "p4");
-				setTile(i, 25, "p1");
-				setTile(i, 26, "p1");
-				setTile(i, 27, "p5");
-			}
+//			for (int i=0; i<pfWidth(); i++){
+//				setTile(i, 24, "p4");
+//				setTile(i, 25, "p1");
+//				setTile(i, 26, "p1");
+//				setTile(i, 27, "p5");
+//			}
+			initMap();
 			enemy = new Enemy(35, 380, .4, 'y', "ewalkr", 15, this);
 		}
 		else if (!hero.isOnPF(-10, -10) && hero.orientation==3) {
 			hero.setPos(0, hero.getLastY());
 			fillBG("pa");
+			for (int i=0; i<pfWidth(); i++){
+				setTile(i, 24, "p4");
+				setTile(i, 25, "p1");
+				setTile(i, 26, "p1");
+				setTile(i, 27, "p5");
+			}
 		}
 		else if (!hero.isOnPF(-10, -10) && hero.orientation==12) {
 			hero.setPos(hero.getLastX(), pfHeight()-50);
 			fillBG("pa");
+			for (int i=0; i<pfWidth(); i++){
+				setTile(i, 24, "p4");
+				setTile(i, 25, "p1");
+				setTile(i, 26, "p1");
+				setTile(i, 27, "p5");
+			}
 		}
 		else if (!hero.isOnPF(-10, -10) && hero.orientation==6){
 			hero.setPos(hero.getLastX(), 0);
+			fillBG("pa");
+			for (int i=0; i<pfWidth(); i++){
+				setTile(i, 24, "p4");
+				setTile(i, 25, "p1");
+				setTile(i, 26, "p1");
+				setTile(i, 27, "p5");
+			}
 		}
 	}
 	
