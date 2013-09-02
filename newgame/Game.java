@@ -15,7 +15,7 @@ public class Game extends StdGame {
 	// width and height parameters.
 
 	final static int WIDTH = 800;
-	final static int HEIGHT = 600;
+	final static int HEIGHT = 593;
 	
 	Hero hero = null;
 	Enemy enemy = null;
@@ -29,7 +29,7 @@ public class Game extends StdGame {
 	public Game(int width, int height) {
 		initEngine(WIDTH, HEIGHT);
 		
-		setPFSize(52, 40);
+		setPFSize(50, 37);
 		setViewOffset(1, 1, true);
 		//setPFWrap(true, true, 10, 10);
 	}
@@ -38,21 +38,13 @@ public class Game extends StdGame {
 	public void initCanvas() {
 		JGColor red = new JGColor(255, 0, 0);
 		JGColor black = new JGColor(0, 0, 0);
-		JGColor green = new JGColor(0, 180, 85);
-		//setCanvasSettings(1, 1, 800, 600, red, black, null);
-		setCanvasSettings(50,38,16,16,red,green,null);
+		setCanvasSettings(50,37,16,16,red,black,null);
 		
 
 	}
 
 	public void initGame() {
-		defineMedia("mygame.tbl");
-		defineMedia("outdoors.tbl");
-		defineMedia("character.tbl");
-		defineMedia("game.tbl");
-		setBGImage("grass1");
-		defineMedia("weapon.tbl");
-
+		setMedia();
 		initMap();
 		setMouseCursor(new Cursor(Cursor.CROSSHAIR_CURSOR));
 
@@ -65,6 +57,16 @@ public class Game extends StdGame {
 		setHighscores(10, new Highscore(0, "nobody"), 15);
 
 	}
+	
+	public void setMedia() {
+		defineMedia("mygame.tbl");
+		defineMedia("outdoors.tbl");
+		defineMedia("character.tbl");
+		defineMedia("game.tbl");
+		setBGImage("grass1");
+		defineMedia("sword.tbl");
+	}
+	
 	public void initMap() {
 		//Setting up background
 		for (int i=0; i<36; i++){
@@ -83,20 +85,20 @@ public class Game extends StdGame {
 		setTile(18, 27, "p1");
 		
 		for (int i=18; i<pfWidth(); i++){
-			setTile(i+1, 34, "p4");
-			setTile(i, 35, "p1");
-			setTile(i, 36, "p1");
-			setTile(i, 37, "p5");
+			setTile(i+1, 32, "p4");
+			setTile(i, 33, "p1");
+			setTile(i, 34, "p1");
+			setTile(i, 35, "p5");
 		}
 
 
-		setTile(18, 34, "p1");
-		setTile(15, 36, "p2");
-		setTile(16, 36, "p1");
-		setTile(17, 36, "p1");
-		setTile(15, 37, "p8");
-		setTile(16, 37, "p5");
-		setTile(17, 37, "p5");
+		setTile(18, 32, "p1");
+		setTile(15, 34, "p2");
+		setTile(16, 34, "p1");
+		setTile(17, 34, "p1");
+		setTile(15, 35, "p7");
+		setTile(16, 35, "p5");
+		setTile(17, 35, "p5");
 		
 		for (int i=0; i<15; i++){
 			setTile(i, 24, "p4");
@@ -108,6 +110,22 @@ public class Game extends StdGame {
 		setTile(15, 25, "p1");
 		setTile(15, 26, "p1");
 		setTile(15, 27, "p1");
+		
+		//Building
+		setTile(20, 10, "b1");
+		setTile(21, 10, "b2");
+		setTile(22, 10, "b3");
+		setTile(23, 10, "b4");
+		
+		setTile(20, 11, "b5");
+		setTile(21, 11, "b6");
+		setTile(22, 11, "b7");
+		setTile(23, 11, "b8");
+		
+		setTile(20, 12, "b9");
+		setTile(21, 12, "b10");
+		setTile(22, 12, "b11");
+		setTile(23, 12, "b12");
 	}
 
 	public void initNewLife() {

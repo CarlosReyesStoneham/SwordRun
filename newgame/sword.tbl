@@ -1,0 +1,12 @@
+weapon_map			stone_sword2.gif	0	0	32	32	1	1
+
+sword1		p	0	weapon_map	0	-	0	0	32	32
+sword2		p	0	weapon_map	1	-	0	0	16	40
+sword3		p	0	weapon_map	2	-	0	0	32	32
+sword4		p	0	weapon_map	3	-	0	0	40	16
+sword5		p	0	weapon_map	4	-	0	0	32	32
+sword6		p	0	weapon_map	5	-	0	0	32	32
+sword7		p	0	weapon_map	6	-	0	0	16	40
+sword8		p	0	weapon_map	7	-	0	0	32	32
+
+swing1	sword1;sword5;sword3	0.3
