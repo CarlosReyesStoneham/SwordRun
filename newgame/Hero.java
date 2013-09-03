@@ -204,22 +204,30 @@ public class Hero extends JGObject {
 
 		}
 	}
-	
 	public void hit(JGObject obj) {
+		setDir(0,0);
+		yspeed=2.5;
+		xspeed=2.5;
+		
 		if (and(obj.colid,2) && obj instanceof Enemy) {
 			engine.lifeLost();
 		}
 		else if (and(obj.colid,2) && obj instanceof Block){
 			if (this.orientation == 9) {
-				obj.x  -= 5;
+				obj.setAnim("roll");
+				obj.startAnim();
+				obj.x -= 5;
 			}
 			else if (this.orientation == 12) {
+				obj.setGraphic("roll");
 				obj.y -= 5;
 			}
 			else if (this.orientation == 3) {
+				obj.setGraphic("roll");
 				obj.x += 5;
 			}
 			else if (this.orientation == 6) {
+				obj.setGraphic("roll");
 				obj.y += 5;
 			}
 		}

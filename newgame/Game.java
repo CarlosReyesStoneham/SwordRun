@@ -28,7 +28,6 @@ public class Game extends StdGame {
 
 	public Game(int width, int height) {
 		initEngine(WIDTH, HEIGHT);
-		
 		setPFSize(50, 37);
 		setViewOffset(1, 1, true);
 		//setPFWrap(true, true, 10, 10);
@@ -39,8 +38,6 @@ public class Game extends StdGame {
 		JGColor red = new JGColor(255, 0, 0);
 		JGColor black = new JGColor(0, 0, 0);
 		setCanvasSettings(50,37,16,16,red,black,null);
-		
-
 	}
 
 	public void initGame() {
@@ -55,7 +52,6 @@ public class Game extends StdGame {
 			setFrameRate(45, 1);
 		}
 		setHighscores(10, new Highscore(0, "nobody"), 15);
-
 	}
 	
 	public void setMedia() {
@@ -65,6 +61,7 @@ public class Game extends StdGame {
 		defineMedia("game.tbl");
 		setBGImage("grass1");
 		defineMedia("sword.tbl");
+		defineMedia("boulder.tbl");
 	}
 	
 	public void initMap() {
@@ -132,7 +129,7 @@ public class Game extends StdGame {
 		removeObjects(null,0);
 		enemy = new Enemy(4, 380, 2, 'x', "ewalkb", 15, this);
 		hero = new Hero(pfWidth()/2,pfHeight()-50,5, this, this);
-		block = new Block(200, 100, "block1", this, hero);
+		block = new Block(200, 100, "boulder1", this, hero, "boulder1");
 		
 	}
 	
@@ -205,7 +202,7 @@ public class Game extends StdGame {
 	public static void main(String[] args) {
 		// Run the game at a window size of 800 by 600 pixels.
 
-		new Game(800, 600);
+		new Game(800, 593);
 	}
 
 }
