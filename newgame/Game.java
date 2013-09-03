@@ -28,7 +28,7 @@ public class Game extends StdGame {
 
 	public Game(int width, int height) {
 		initEngine(WIDTH, HEIGHT);
-		setPFSize(50, 37);
+		setPFSize(50, 37); 
 		setViewOffset(1, 1, true);
 		//setPFWrap(true, true, 10, 10);
 	}
@@ -52,6 +52,7 @@ public class Game extends StdGame {
 			setFrameRate(45, 1);
 		}
 		setHighscores(10, new Highscore(0, "nobody"), 15);
+		dbgShowBoundingBox(true);
 	}
 	
 	public void setMedia() {
@@ -127,10 +128,12 @@ public class Game extends StdGame {
 
 	public void initNewLife() {
 		removeObjects(null,0);
-		enemy = new Enemy(4, 380, 2, 'x', "ewalkb", 15, this);
+		//Enemies have 'facing' which specifies the direction they are headed in
+		enemy = new Enemy(4, 380, 2, 'y', "ewalkb", 15, this, 'd');
 		hero = new Hero(pfWidth()/2,pfHeight()-50,5, this, this);
 		block = new Block(200, 100, "boulder1", this, hero, "boulder1");
-		
+		new Enemy(4, gametime, 2, 'x', "ewalkr", 15, this, 'r');
+
 	}
 	
 	public void startGameOver() {
@@ -141,13 +144,17 @@ public class Game extends StdGame {
 		moveObjects();
 		checkCollision(2,1); // enemies hit player
 		checkCollision(4,2); // bullets hit enemies
+		checkCollision(1,5); // player hit rock
+
 		//if (gametime>=500 && countObjects("enemy",0)==0) levelDone();
 		checkPosition();
 	}
 	
 	public void checkPosition() {
 		if (!hero.isOnPF(-10, -10) && hero.orientation==9) {
+			block.setPos(pfWidth() - 50 - (hero.x - block.x), block.getLastY());
 			hero.setPos(pfWidth()-50, hero.getLastY());
+			
 			fillBG("pa");
 //			for (int i=0; i<pfWidth(); i++){
 //				setTile(i, 24, "p4");
@@ -156,9 +163,10 @@ public class Game extends StdGame {
 //				setTile(i, 27, "p5");
 //			}
 			initMap();
-			enemy = new Enemy(35, 380, .4, 'y', "ewalkr", 15, this);
+			enemy = new Enemy(35, 380, .4, 'x', "ewalkr", 15, this, 'r');
 		}
 		else if (!hero.isOnPF(-10, -10) && hero.orientation==3) {
+			block.setPos(0 + (block.x - hero.x), block.getLastY());
 			hero.setPos(0, hero.getLastY());
 			fillBG("pa");
 			for (int i=0; i<pfWidth(); i++){
@@ -169,6 +177,7 @@ public class Game extends StdGame {
 			}
 		}
 		else if (!hero.isOnPF(-10, -10) && hero.orientation==12) {
+			//block.setPos(pfWidth() - 50 - (hero.x - block.x), block.getLastY());
 			hero.setPos(hero.getLastX(), pfHeight()-50);
 			fillBG("pa");
 			for (int i=0; i<pfWidth(); i++){

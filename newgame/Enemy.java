@@ -6,66 +6,61 @@ public class Enemy extends JGObject {
 	public Game engine;
 	int health = 70;
 	String graphic;
+	//We have both a direction and a facing so that the path of
+	//movement and the direction they are facing becomes clear
 	char direction;
+	char facing;
 	double timer=0;
-	public Enemy(double x, double y, double speed, char direction, String graphic, int health, Game engine) {
+	public Enemy(double x, double y, double speed, char direction, String graphic, int health, Game engine, char facing) {
 		super("enemy",true,x,y,
 				2, graphic,
 				speed, speed, -2 );
 		this.direction = direction;
 		this.engine = engine;
+		this.facing = facing;
+		
+		if (direction=='y') {
+			yspeed=1;
+			xspeed=0;
+		}
+		if (direction=='x') {
+			xspeed=1;
+			yspeed=0;
+		}
 	}
 	
 	public void move() {
-		
-		double startingX=this.x;
-		double startingY=this.y;
-		
-		
-		if (this.direction=='y') {
-			y += 0.5;
-			
-			y = 0;
-			if (y> engine.pfWidth()) {
-				y = -8;	
-			}
-		}
-		if (this.direction=='x') {
-			x += 0.5;
-			
-			x = 0;
-			if (x > engine.pfWidth()) {
-				x = -8;	
-			}
-		}
-		lurk(startingX, startingY);
+		lurk();
 	}
 	
-	public void lurk(double startingX, double startingY) {
-		if (this.direction=='w') {
-			y += -(this.xspeed*2);
-			x = 0;
-			if (y> engine.pfWidth()) {
-				y = -8;	
-			}
-		}
-		if (this.direction=='s') {
-			x = 0;
-			if (y> engine.pfWidth()) {
-				y = -8;	
-			}
-		}
-		if (this.y>=engine.pfHeight()-50) {
-			this.direction = 'w';
-			y += -(this.yspeed);
+	
+	/*
+	 * When the enemy hits the edge of the screen he'll turn around
+	 * This depends on the direction he is facing and the pixel coordinate he's at
+	 * If you writing a similar method remeber to use <= or >= NOT ==
+	 * >= or <= will always happen, == wil NOT
+	 */
+	public void lurk() {
+		//facing (u)p (d)own (l)eft (r)ight
+		if (y >= engine.pfHeight()-50 && facing == 'd') {
 			setGraphic("ewalkf");
+			facing = 'u';
+			yspeed = -yspeed;
 		}
-		
-		if (this.y <= 10) {
-			this.direction = 's';
-			y += (this.xspeed);
+		else if (y <= 5 && facing == 'u') {
 			setGraphic("ewalkb");
-			
+			facing = 'd';
+			yspeed = -yspeed;
+		}
+		else if (x >= engine.pfWidth()-50 && facing == 'r') {
+			setGraphic("ewalkl");
+			facing = 'l';
+			xspeed = -xspeed;
+		}
+		else if (x <= 5 && facing == 'l') {
+			setGraphic("ewalkr");
+			facing = 'r';
+			xspeed = -xspeed;
 		}
 		
 	}
