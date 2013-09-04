@@ -192,21 +192,22 @@ public class Hero extends JGObject {
 	
 	public void hit(JGObject obj) {
 		if (and(obj.colid,2) && obj instanceof Enemy) {
-			if (health == 0){
-				engine.lifeLost();
+			if (health != 0){
+				health-= 1;
 			}
 			else {
-				health -= 5;
+				engine.lifeLost();
 			}
 		}
 		else if (and(obj.colid, 6)  && obj instanceof Wall) {
 			obj.xspeed=0;
 			obj.yspeed=0;
 		}
-			
-//For picking stuff up
+		
+
+		//For picking stuff up
 		else if (and(obj.colid, 7) && obj instanceof Item){
-			health += 5;
+			health += 300;
 			obj.remove();
 		}
 	}

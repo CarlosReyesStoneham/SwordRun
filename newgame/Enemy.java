@@ -22,11 +22,11 @@ public class Enemy extends JGObject {
 		this.automate = automate;
 		
 		if (direction=='y') {
-			yspeed=1;
+			yspeed=speed;
 			xspeed=0;
 		}
 		if (direction=='x') {
-			xspeed=1;
+			xspeed=speed;
 			yspeed=0;
 		}
 	}

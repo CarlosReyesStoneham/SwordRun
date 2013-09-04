@@ -103,11 +103,11 @@ public class Game extends StdGame {
 		removeObjects(null,0);
 		//Enemies have 'facing' which specifies the direction they are headed in
 		//enemy = new Enemy(4, 380, 2, 'y', "ewalkb", 15, this, 'd', true);
-		hero = new Hero(pfWidth()/2,pfHeight()-100,5, this, this, 50);
+		hero = new Hero(pfWidth()/2,pfHeight()-100,5, this, this, 1000);
 		block = new Block(200, 100, "boulder1", this, hero, "boulder1");
 		//item = new Item(400, 300, "block1", this, hero, "block1");
 		//wall = new Wall(300, 200, "boulder4", this, hero, "boulder4");
-		new Enemy(4, gametime, 2, 'x', "ewalkr", 15, this, 'r', true);
+		//new Enemy(4, gametime, 2, 'x', "ewalkr", 15, this, 'r', true);
 //		for (int i=0; i < 30; i ++) {
 //			new Wall(10, 20*i, "boulder4", this, hero, "boulder4");
 //		}
@@ -228,38 +228,143 @@ public class Game extends StdGame {
 		}
 	}
 	
+	
+	boolean visitedWorld0 = false;
+	boolean visitedWorld1 = false;
+	boolean visitedWorld2 = false;
+	boolean visitedWorld3 = false;
+
 	public void setWalls() {
+		
+		//First World
 		if(currentWorld==0) {
+			if (!visitedWorld0) {
+				for(int i=0; i < 1; i++){
+					double randomy = Math.random() * 700 + 1;
+					double randomx = Math.random() * 100 + 1;
+					double randoms = Math.random() * 4 + 1;
+
+					new Enemy(randomx, randomy, randoms, 'x', "ewalkr", 15, this, 'r', true);
+				}
+				
+			}
 			if (hero.x >= pfWidth()-25){
 				hero.setPos(hero.getLastX(), hero.getLastY());
 			}
 			if (hero.y >= pfHeight()-45){
 				hero.setPos(hero.getLastX(), hero.getLastY());
 			}
+			
+			//This is the only case where you may not go up
+			//This would be getting to the end without any effort
+			if (hero.y <= 0) {
+				hero.setPos(hero.getLastX(), hero.getLastY());
+			}
+			if(hero.x <= 0 && countObjects("enemy",0)!=0) {
+				hero.setPos(hero.getLastX(), hero.getLastY());
+			}
+
+			visitedWorld0 = true;
 		}
+		
+		//Second World
 		else if (currentWorld==1) {
+			if(!visitedWorld1) {
+				for(int i=0; i < 2; i++){
+					double randomy = Math.random() * 700 + 1;
+					double randomx = Math.random() * 100 + 1;
+					double randoms = Math.random() * 4 + 1;
+
+					new Enemy(randomx, randomy, randoms, 'x', "ewalkr", 15, this, 'r', true);
+				}
+			}
+			
+			//Permanent boundries, even after the game is over
 			if (hero.x <= 0){
 				hero.setPos(hero.getLastX(), hero.getLastY());
 			}
 			if (hero.y >= pfHeight()-45){
 				hero.setPos(hero.getLastX(), hero.getLastY());
 			}
+			
+			//Temporary boundries while enemies are still alive
+			if(hero.y <= 0 && countObjects("enemy",0)!=0) {
+				hero.setPos(hero.getLastX(), hero.getLastY());
+			}
+			if(hero.x >= pfWidth()-25 && countObjects("enemy",0)!=0) {
+				hero.setPos(hero.getLastX(), hero.getLastY());
+			}
+			
+			visitedWorld1 = true;
+
 		}
+		
+		//Third World
 		else if(currentWorld==2) {
+			if(!visitedWorld2) {
+				for(int i=0; i < 3; i++){
+					double randomy = Math.random() * 700 + 1;
+					double randomx = Math.random() * 100 + 1;
+					double randoms = Math.random() * 4 + 1;
+
+					new Enemy(randomx, randomy, randoms, 'x', "ewalkb", 15, this, 'r', true);
+				}
+			}
+			
+			//Permanent
+			if(!visitedWorld2) {
+				new Enemy(4, 100, 2, 'x', "ewalkr", 15, this, 'r', true);
+			}
 			if (hero.x <= 0){
 				hero.setPos(hero.getLastX(), hero.getLastY());
 			}
 			if (hero.y <= 0){
 				hero.setPos(hero.getLastX(), hero.getLastY());
 			}
+			
+			//Temporary
+			if (hero.y >= pfHeight()-45  && countObjects("enemy",0)!=0) {
+				hero.setPos(hero.getLastX(), hero.getLastY());
+			}
+			if(hero.x >= pfWidth()-25 && countObjects("enemy",0)!=0) {
+				hero.setPos(hero.getLastX(), hero.getLastY());
+			}
+
+			visitedWorld2 = true;
 		}
+		
+		//Fourth World
 		else if(currentWorld==3) {
+			if(!visitedWorld3) {
+				for(int i=0; i < 4; i++){
+					double randomy = Math.random() * 700 + 1;
+					double randomx = Math.random() * 100 + 1;
+					double randoms = Math.random() * 4 + 1;
+
+					new Enemy(randomx, randomy, randoms, 'x', "ewalkb", 15, this, 'r', true);
+				}
+			}
+			//Permanent
 			if (hero.x >= pfWidth()-25){
 				hero.setPos(hero.getLastX(), hero.getLastY());
 			}
 			if (hero.y <= 0){
 				hero.setPos(hero.getLastX(), hero.getLastY());
 			}
+			
+			//Temporary
+			if (hero.y >= pfHeight()-45  && countObjects("enemy",0)!=0) {
+				hero.setPos(hero.getLastX(), hero.getLastY());
+			}
+			if(hero.x <= 0 && countObjects("enemy",0)!=0) {
+				hero.setPos(hero.getLastX(), hero.getLastY());
+			}
+			
+			if(countObjects("enemy",0)==0) {
+				setGameState("GameOver");
+			}
+			visitedWorld3 = true;
+
 		}
 	}
 	
