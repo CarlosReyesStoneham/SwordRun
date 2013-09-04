@@ -1,14 +1,8 @@
 package newgame;
 
-import java.awt.Rectangle;
-
 import jgame.JGObject;
-import jgame.impl.JGEngineInterface;
 import jgame.platform.JGEngine;
-import jgame.platform.StdGame;
-import jgame.*;
 import newgame.Game;
-import newgame.Block;
 
 public class Hero extends JGObject {
 	public Game engine;
@@ -20,9 +14,11 @@ public class Hero extends JGObject {
 		this.stdgame = stdgame;
 		this.health = health;
 	}
-	String lastGraphic = "mstand4";
-	int i=0;
-	int orientation = 12; //12-Forward, 3-Right, 6-Down, 9-Left
+	
+	//These are global as I do not want them in the move loop
+	private String lastGraphic = "mstand4";
+	private int i=0;
+	public int orientation = 12; //12-Forward, 3-Right, 6-Down, 9-Left
 	
 	/*
 	 * Orientation is like that on a clock
@@ -76,6 +72,11 @@ public class Hero extends JGObject {
 		}
 	}
 	
+	/*
+	 * Selects between 0, 1, 2 to choose 
+	 * between gun, machinegun, and throwing sword
+	 * respectively
+	 */
 	public void weaponSwitch(int x) {
 		if (engine.getKey(JGEngine.KeyEnter) && x==0) {
 			i=1;
@@ -91,6 +92,10 @@ public class Hero extends JGObject {
 		}
 	}
 	
+	/*
+	 * Hold shift to run
+	 * This needs to be combined with walk for code space efficiency
+	 */
 	public void run(boolean flag) {
 		//Running
 		if (engine.getKey(JGEngine.KeyLeft) && engine.getKey(JGEngine.KeyShift)) {
@@ -111,6 +116,10 @@ public class Hero extends JGObject {
 		}
 	}
 	
+	/*
+	 * 0=gun, 1=machine gun, 2=throwing sword
+	 * These numbers are used to select between weapons
+	 */
 	public void weapon(int select, String graphicH, String graphicV) {
 		//The gun is a semi-automatic weapon, you must press the fire key each time to fire
 		if (engine.getKey(stdgame.key_fire) && engine.countObjects("bullet",0) < 50) {
@@ -174,16 +183,8 @@ public class Hero extends JGObject {
 		}
 	}
 	
-	
-//	public void healthBar(int healthX, int healthY, int heathWidth, int healthHeight) {
-//		Rectangle healthBG = new Rectangle(healthX, healthY, healthWidth, healthHeight);
-//
-//        float healthGAWidth = ((float) health / (float) maxHealth) * (float) healthWidth;
-//        Rectangle healthGA = new Rectangle(healthX, healthY, healthGAWidth, healthHeight);
-//
-//	}
-	
 	public void hit(JGObject obj) {
+		//Collision with enemies
 		if (and(obj.colid,2) && obj instanceof Enemy) {
 			if (health != 0){
 				health-= 1;
@@ -192,15 +193,15 @@ public class Hero extends JGObject {
 				engine.lifeLost();
 			}
 		}
+		//Collision with wall objects
 		else if (and(obj.colid, 6)  && obj instanceof Wall) {
 			obj.xspeed=0;
 			obj.yspeed=0;
 		}
-		
 
 		//For picking stuff up
 		else if (and(obj.colid, 7) && obj instanceof Item){
-			health += 1000;
+			health += 4000;
 			obj.remove();
 		}
 	}

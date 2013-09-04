@@ -2,7 +2,6 @@ package newgame;
 
 import jgame.*;
 import java.awt.Cursor;
-import java.util.ArrayList;
 
 import jgame.JGColor;
 import jgame.platform.*;
@@ -24,13 +23,19 @@ public class Game extends StdGame {
 	final static int PADDED_WIDTH = WIDTH-25;
 	final static double HALF_SCREEN_HEIGHT = HEIGHT/2;
 	final static double HALF_SCREEN_WIDTH = WIDTH/2;
-	
 	final static int PF_MARGIN = -10;
+	final static int ITEM_X = 700;
+	final static int ITEM_Y = 100;
+	final static int WORLD0 = 0;
+	final static int WORLD1 = 1;
+	final static int WORLD2 = 2;
+	final static int WORLD3 = 3;
+
 	
-	boolean visitedWorld0 = false;
-	boolean visitedWorld1 = false;
-	boolean visitedWorld2 = false;
-	boolean visitedWorld3 = false;
+	private boolean visitedWorld0 = false;
+	private boolean visitedWorld1 = false;
+	private boolean visitedWorld2 = false;
+	private boolean visitedWorld3 = false;
 	
 	
 	Hero hero = null;
@@ -90,24 +95,25 @@ public class Game extends StdGame {
 		setBGImage("grass1");
 	}
 	
-	public void initMap2() {
-		double random = Math.random() * PFHEIGHT + 1;
-		double random2 = Math.random() * PFWIDTH + 1;
-		int starting = (int)random;
-		int starting2 = (int)random2;
-		for(int i=0; i <= PFHEIGHT; i++) {
-			setTile(starting, i, "p2");
-			setTile(starting+1, i, "p1");
-			setTile(starting+2, i, "p1");
-			setTile(starting+3, i, "p3");
-		}
-		for(int i=0; i <= PFWIDTH; i++) {
-			setTile(i, starting2, "p4");
-			setTile(i, starting2+1, "p1");
-			setTile(i, starting2+2, "p1");
-			setTile(i, starting2+3, "p5");
-		}
-	}
+	//makes a path
+//	public void initPath() {
+//		double random = Math.random() * PFHEIGHT + 1;
+//		double random2 = Math.random() * PFWIDTH + 1;
+//		int starting = (int)random;
+//		int starting2 = (int)random2;
+//		for(int i=0; i <= PFHEIGHT; i++) {
+//			setTile(starting, i, "p2");
+//			setTile(starting+1, i, "p1");
+//			setTile(starting+2, i, "p1");
+//			setTile(starting+3, i, "p3");
+//		}
+//		for(int i=0; i <= PFWIDTH; i++) {
+//			setTile(i, starting2, "p4");
+//			setTile(i, starting2+1, "p1");
+//			setTile(i, starting2+2, "p1");
+//			setTile(i, starting2+3, "p5");
+//		}
+//	}
 	
 
 	public void initNewLife() {
@@ -115,8 +121,9 @@ public class Game extends StdGame {
 		//Enemies have 'facing' which specifies the direction they are headed in
 		//enemy = new Enemy(4, 380, 2, 'y', "ewalkb", 15, this, 'd', true);
 		hero = new Hero(HALF_SCREEN_WIDTH,pfHeight()-100,5, this, this, 3000);
-		block = new Block(200, pfHeight()-100, "boulder1", this, hero, "boulder1");
-		//item = new Item(400, 300, "block1", this, hero, "block1");
+		block = new Block(200, pfHeight()-100, "boulder1", this, hero);
+		item = new Item(ITEM_X, ITEM_Y, "block1", this, hero);
+
 		//wall = new Wall(300, 200, "boulder4", this, hero, "boulder4");
 
 	}
@@ -132,6 +139,7 @@ public class Game extends StdGame {
 		checkPosition();
 	}
 	
+	//Called in the doFrameInGame loop
 	public void checkCol() {
 		checkCollision(2,1); // enemies hit player
 		checkCollision(4,2); // bullets hit enemies
@@ -152,17 +160,18 @@ public class Game extends StdGame {
 	 * |----------|
 	 * | 1  |  0  |
 	 *  -----------
+	 *  Called in the doFrameInGame loop
 	 */
 	public void checkPosition() {
 
-		if (!hero.isOnPF(PF_MARGIN, PF_MARGIN) && hero.orientation==9 && (currentWorld==0 || currentWorld==3)) {
+		if (!hero.isOnPF(PF_MARGIN, PF_MARGIN) && hero.orientation==9 && (currentWorld==WORLD0 || currentWorld==WORLD3)) {
 			
 			//Determine the next world that you will be in
-			if(currentWorld==0){
-				currentWorld = 1;
+			if(currentWorld==WORLD0){
+				currentWorld = WORLD1;
 			}
 			else{
-				currentWorld=2;
+				currentWorld=WORLD2;
 			}
 			
 			block.setPos(pfWidth() - 50 - (hero.x - block.x), block.getLastY());
@@ -170,14 +179,14 @@ public class Game extends StdGame {
 			
 			fillBG("pa");
 		}
-		else if (!hero.isOnPF(PF_MARGIN, PF_MARGIN) && hero.orientation==3 && (currentWorld==1 || currentWorld==2)) {
+		else if (!hero.isOnPF(PF_MARGIN, PF_MARGIN) && hero.orientation==WORLD3 && (currentWorld==WORLD1 || currentWorld==WORLD2)) {
 			
 			//Determine the next world that you will be in
-			if(currentWorld==2){
-				currentWorld = 3;
+			if(currentWorld==WORLD2){
+				currentWorld = WORLD3;
 			}
 			else{
-				currentWorld=0;
+				currentWorld=WORLD0;
 			}
 			
 			block.setPos(0 + (block.x - hero.x), block.getLastY());
@@ -185,14 +194,14 @@ public class Game extends StdGame {
 			fillBG("pa");
 
 		}
-		else if (!hero.isOnPF(PF_MARGIN, PF_MARGIN) && hero.orientation==12 && (currentWorld==0 || currentWorld==1)) {
+		else if (!hero.isOnPF(PF_MARGIN, PF_MARGIN) && hero.orientation==12 && (currentWorld==WORLD0 || currentWorld==WORLD1)) {
 			
 			//Determine the next world that you will be in
-			if(currentWorld==0){
-				currentWorld = 3;
+			if(currentWorld==WORLD0){
+				currentWorld = WORLD3;
 			}
 			else{
-				currentWorld=2;
+				currentWorld=WORLD2;
 			}
 			
 			//block.setPos(pfWidth() - 50 - (hero.x - block.x), block.getLastY());
@@ -200,14 +209,14 @@ public class Game extends StdGame {
 			fillBG("pa");
 
 		}
-		else if (!hero.isOnPF(PF_MARGIN, PF_MARGIN) && hero.orientation==6 && (currentWorld==2 || currentWorld==3)){
+		else if (!hero.isOnPF(PF_MARGIN, PF_MARGIN) && hero.orientation==6 && (currentWorld==WORLD2 || currentWorld==WORLD3)){
 			
 			//Determine the next world that you will be in
-			if(currentWorld==3){
-				currentWorld = 0;
+			if(currentWorld==WORLD3){
+				currentWorld = WORLD0;
 			}
 			else{
-				currentWorld=1;
+				currentWorld=WORLD1;
 			}
 			
 			
@@ -229,7 +238,7 @@ public class Game extends StdGame {
 	public void setWalls() {
 		
 		//First World
-		if(currentWorld==0) {
+		if(currentWorld==WORLD0) {
 			if (!visitedWorld0) {
 				genEnemies(1, "ewalkr");
 			}
@@ -248,12 +257,12 @@ public class Game extends StdGame {
 			if(hero.x <= 0 && countObjects("enemy",0)!=0) {
 				hero.setPos(hero.getLastX(), hero.getLastY());
 			}
-
-			visitedWorld0 = true;
+			
+			visitedWorld0 = true; //We have indeed visited this world
 		}
 		
 		//Second World
-		else if (currentWorld==1) {
+		else if (currentWorld==WORLD1) {
 			if(!visitedWorld1) {
 				genEnemies(2, "ewalkr");
 			}
@@ -279,7 +288,7 @@ public class Game extends StdGame {
 		}
 		
 		//Third World
-		else if(currentWorld==2) {
+		else if(currentWorld==WORLD2) {
 			if(!visitedWorld2) {
 				genEnemies(3, "ewalkr");
 			}
@@ -307,7 +316,7 @@ public class Game extends StdGame {
 		}
 		
 		//Fourth World
-		else if(currentWorld==3) {
+		else if(currentWorld==WORLD3) {
 			if(!visitedWorld3) {
 				genEnemies(1, "bwalkr");
 			}
@@ -334,7 +343,7 @@ public class Game extends StdGame {
 	
 	public void incrementLevel() {
 		score += 50;
-		if (level<7){
+		if (level<3){
 			level++;
 		}
 		stage++;

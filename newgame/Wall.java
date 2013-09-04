@@ -1,20 +1,17 @@
 package newgame;
 
 import jgame.JGObject;
-import jgame.platform.JGEngine;
 import newgame.Hero;
 
 public class Wall extends JGObject {
 	public Hero hero;
 	public Game engine;
 	String graphic;
-	String lastGraphic;
 	boolean flag = false;
-	public Wall(double x, double y, String graphic, Game engine, Hero hero, String lastGraphic) {
+	public Wall(double x, double y, String graphic, Game engine, Hero hero) {
 		super("wall", true, x, y, 6, graphic, -2);
 		this.engine = engine;
 		this.hero = hero;
-		this.lastGraphic = lastGraphic;
 	}
 	
 	public void move() {

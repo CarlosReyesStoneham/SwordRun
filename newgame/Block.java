@@ -1,20 +1,17 @@
 package newgame;
 
 import jgame.JGObject;
-import jgame.platform.JGEngine;
 import newgame.Hero;
 
 public class Block extends JGObject {
 	public Hero hero;
 	public Game engine;
 	String graphic;
-	String lastGraphic;
 	boolean flag = false;
-	public Block(double x, double y, String graphic, Game engine, Hero hero, String lastGraphic) {
+	public Block(double x, double y, String graphic, Game engine, Hero hero) {
 		super("block", true, x, y, 5, graphic, -2);
 		this.engine = engine;
 		this.hero = hero;
-		this.lastGraphic = lastGraphic;
 	}
 	
 	public void move() {
