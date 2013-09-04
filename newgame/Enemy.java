@@ -40,8 +40,8 @@ public class Enemy extends JGObject {
 	/*
 	 * When the enemy hits the edge of the screen he'll turn around
 	 * This depends on the direction he is facing and the pixel coordinate he's at
-	 * If you writing a similar method remeber to use <= or >= NOT ==
-	 * >= or <= will always happen, == wil NOT
+	 * If you writing a similar method remember to use <= or >= NOT ==
+	 * >= or <= will always happen, == will NOT
 	 */
 	public void lurk() {
 		//facing (u)p (d)own (l)eft (r)ight

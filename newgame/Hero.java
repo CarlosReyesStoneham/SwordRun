@@ -23,6 +23,12 @@ public class Hero extends JGObject {
 	String lastGraphic = "mstand4";
 	int i=0;
 	int orientation = 12; //12-Forward, 3-Right, 6-Down, 9-Left
+	
+	/*
+	 * Orientation is like that on a clock
+	 * 3=facing right, 9=facing right, 12=facing forward, 6=facing down
+	 * 
+	 */
 	public void move() {
 		boolean flag=false;
 		setDir(0,0);
@@ -63,10 +69,7 @@ public class Hero extends JGObject {
 		
 		//switch weapons
 		weaponSwitch(i);
-		gun(i, "barx", "bary");
-		machineGun(i);
-		//machineGun(i);
-		sword(i);
+		weapon(i, "barx", "bary");
 		
 		if (!flag){
 			setGraphic(lastGraphic);
@@ -108,79 +111,69 @@ public class Hero extends JGObject {
 		}
 	}
 	
-	public void machineGun(int i) {
-		//Machine Gun is fully automatic, you can hold down the fire key.
-		if (engine.getKey(stdgame.key_fire) && engine.countObjects("bullet",0) < 30 && i==1) {
-			if (orientation == 9) {
-				new JGObject("bullet", true, x, y, 4, "barx", -30, 0, -2);
-				new JGObject("bullet", true, x-10, y-3, 4, "barx", -30, 0, -2);
-				//clearKey(key_fire);
-			}
-			if (orientation == 3) {
-				new JGObject("bullet", true, x, y, 4, "barx", 30, 0, -2);
-				new JGObject("bullet", true, x-8, y-3, 4, "barx", 30, 0, -2);
-				//clearKey(key_fire);
-			}
-			if (orientation == 12) {
-				new JGObject("bullet", true, x, y, 4, "bary", 0, -30, -2);
-				new JGObject("bullet", true, x-3, y-8, 4, "bary", 0, -50, -2);
-				//clearKey(key_fire);
-			}
-			if (orientation == 6){
-				new JGObject("bullet", true, x, y, 4, "bary", 0, 30, -2);
-				new JGObject("bullet", true, x-3, y-8, 4, "bary", 0, 50, -2);
-				//clearKey(key_fire);
-			}
-
-		}
-	}
-	
-	public void gun(int automatic, String graphicH, String graphicV) {
+	public void weapon(int select, String graphicH, String graphicV) {
 		//The gun is a semi-automatic weapon, you must press the fire key each time to fire
-		if (engine.getKey(stdgame.key_fire) && engine.countObjects("bullet",0) < 50 && i==0) {
+		if (engine.getKey(stdgame.key_fire) && engine.countObjects("bullet",0) < 50) {
 			if (orientation == 9) {
-				new JGObject("bullet", true, x, y, 4, graphicH, -5, 0, -2);
-				engine.clearKey(stdgame.key_fire);
+				if(i==0){
+					new JGObject("bullet", true, x, y, 4, graphicH, -5, 0, -2);
+					engine.clearKey(stdgame.key_fire);
+				}
+				if(i==1){
+					new JGObject("bullet", true, x, y, 4, graphicH, -30, 0, -2);
+					new JGObject("bullet", true, x-10, y-3, 4, graphicH, -30, 0, -2);
+				}
+				if(i==2){
+					new JGObject("sword4", true, x, y, 4, "swing1", -5, 0, -2);
+					engine.clearKey(stdgame.key_fire);
+				}
 			}
 			if (orientation == 3) {
-				new JGObject("bullet", true, x, y, 4, graphicH, 5, 0, -2);
-				engine.clearKey(stdgame.key_fire);
+				if(i==0){
+					new JGObject("bullet", true, x, y, 4, graphicH, 5, 0, -2);
+					engine.clearKey(stdgame.key_fire);
+				}
+				if(i==1){
+					new JGObject("bullet", true, x, y, 4, graphicH, 30, 0, -2);
+					new JGObject("bullet", true, x-8, y-3, 4, graphicH, 30, 0, -2);
+				}
+				if(i==2){
+					new JGObject("sword4", true, x, y, 4, "swing1", 5, 0, -2);
+					engine.clearKey(stdgame.key_fire);
+				}
 			}
 			if (orientation == 12) {
-				new JGObject("bullet", true, x, y, 4, graphicV, 0, -5, -2);
-				engine.clearKey(stdgame.key_fire);
+				if(i==0){
+					new JGObject("bullet", true, x, y, 4, graphicV, 0, -5, -2);
+					engine.clearKey(stdgame.key_fire);
+				}
+				if(i==1){
+					new JGObject("bullet", true, x, y, 4, graphicV, 0, -30, -2);
+					new JGObject("bullet", true, x-3, y-8, 4, graphicV, 0, -50, -2);
+				}
+				if(i==2){
+					new JGObject("sword4", true, x, y, 4, "swing1", 0, -5, -2);
+					engine.clearKey(stdgame.key_fire);
+				}
 			}
 			if (orientation == 6){
-				new JGObject("bullet", true, x, y, 4, graphicV, 0, 5, -2);
-				engine.clearKey(stdgame.key_fire);
+				if(i==0){
+					new JGObject("bullet", true, x, y, 4, graphicV, 0, 5, -2);
+					engine.clearKey(stdgame.key_fire);
+				}
+				if(i==1){
+					new JGObject("bullet", true, x, y, 4, graphicV, 0, 30, -2);
+					new JGObject("bullet", true, x-3, y-8, 4, graphicV, 0, 50, -2);
+				}
+				if(i==2){
+					new JGObject("sword4", true, x, y, 4, "swing1", 0, 5, -2);
+					engine.clearKey(stdgame.key_fire);
+				}
 			}
 
 		}
 	}
 	
-	// Throw sword
-	public void sword(int i) {
-
-		if (engine.getKey(stdgame.key_fire) && i==2) {
-			if (orientation == 9) {
-				new JGObject("sword4", true, x, y, 4, "swing1", -5, 0, -2);
-				engine.clearKey(stdgame.key_fire);
-			}
-			if (orientation == 3) {
-				new JGObject("sword4", true, x, y, 4, "swing1", 5, 0, -2);
-				engine.clearKey(stdgame.key_fire);
-			}
-			if (orientation == 12) {
-				new JGObject("sword4", true, x, y, 4, "swing1", 0, -5, -2);
-				engine.clearKey(stdgame.key_fire);
-			}
-			if (orientation == 6){
-				new JGObject("sword4", true, x, y, 4, "swing1", 0, 5, -2);
-				engine.clearKey(stdgame.key_fire);
-			}
-
-		}
-	}
 	
 //	public void healthBar(int healthX, int healthY, int heathWidth, int healthHeight) {
 //		Rectangle healthBG = new Rectangle(healthX, healthY, healthWidth, healthHeight);

@@ -115,7 +115,7 @@ public class Game extends StdGame {
 		//Enemies have 'facing' which specifies the direction they are headed in
 		//enemy = new Enemy(4, 380, 2, 'y', "ewalkb", 15, this, 'd', true);
 		hero = new Hero(HALF_SCREEN_WIDTH,pfHeight()-100,5, this, this, 3000);
-		block = new Block(200, 100, "boulder1", this, hero, "boulder1");
+		block = new Block(200, pfHeight()-100, "boulder1", this, hero, "boulder1");
 		//item = new Item(400, 300, "block1", this, hero, "block1");
 		//wall = new Wall(300, 200, "boulder4", this, hero, "boulder4");
 
@@ -127,6 +127,12 @@ public class Game extends StdGame {
 	
 	public void doFrameInGame() {
 		moveObjects();
+		checkCol();
+		setWalls();
+		checkPosition();
+	}
+	
+	public void checkCol() {
 		checkCollision(2,1); // enemies hit player
 		checkCollision(4,2); // bullets hit enemies
 		checkCollision(1,5); // player hit block
@@ -134,10 +140,7 @@ public class Game extends StdGame {
 		checkCollision(2,5); // enemy hit block
 		checkCollision(5,6); // block hit wall
 		checkCollision(1,7); // player hit health
-		setWalls();
-		checkPosition();
 	}
-	
 	
 	/*
 	 * 0 is the world in the lower right
@@ -331,7 +334,9 @@ public class Game extends StdGame {
 	
 	public void incrementLevel() {
 		score += 50;
-		if (level<7) level++;
+		if (level<7){
+			level++;
+		}
 		stage++;
 	}
 	
