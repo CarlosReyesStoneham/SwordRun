@@ -8,9 +8,10 @@ boss5		p	0	boss_map	4	-	0	0	95	95
 boss6		p	0	boss_map	5	-	0	0	95	95
 boss7		p	0	boss_map	6	-	0	0	95	95
 boss8		p	0	boss_map	7	-	0	0	95	95
-boss8		p	0	boss_map	8	-	0	0	95	95
-boss9		p	0	boss_map	9	-	0	0	95	95
-boss10		p	0	boss_map	10	-	0	0	95	95
-boss11		p	0	boss_map	11	-	0	0	95	95
+boss9		p	0	boss_map	8	-	0	0	95	95
+boss10		p	0	boss_map	9	-	0	0	95	95
+boss11		p	0	boss_map	10	-	0	0	95	95
+boss12		p	0	boss_map	11	-	0	0	95	95
 
-bwalkr	boss5;boss4;boss6	0.8
+bwalkl	boss4;boss5;boss6	0.1
+bwalkr	boss7;boss8;boss9	0.1

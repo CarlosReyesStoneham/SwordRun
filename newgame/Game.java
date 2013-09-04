@@ -67,7 +67,6 @@ public class Game extends StdGame {
 
 	public void initGame() {
 		setMedia();
-		setMouseCursor(new Cursor(Cursor.CROSSHAIR_CURSOR));
 
 		if (isMidlet()) {
 			setFrameRate(20, 1);
@@ -83,7 +82,17 @@ public class Game extends StdGame {
 	public void paintFrameTitle() {
 		JGColor black = new JGColor(0, 0, 0);
 		JGFont courier = new JGFont("Courier", 0, 32);
-		drawString("Welcome to SwordRun", HALF_SCREEN_WIDTH, HALF_SCREEN_HEIGHT - 200, 0, courier, black);
+		drawString("Welcome to GunRun", HALF_SCREEN_WIDTH, HALF_SCREEN_HEIGHT - 200, 0, courier, black);
+		drawString("Press Z to shoot", HALF_SCREEN_WIDTH, HALF_SCREEN_HEIGHT- 100, 0, null, black);
+		drawString("Hold Shift to run", HALF_SCREEN_WIDTH, HALF_SCREEN_HEIGHT-50, 0, null, black);
+		drawString("Press Enter to switch weapons", HALF_SCREEN_WIDTH, HALF_SCREEN_HEIGHT, 0, null, black);
+		drawString("The game is set up as a grid of 4 worlds", HALF_SCREEN_WIDTH, HALF_SCREEN_HEIGHT +100, 0, null, black);
+		drawString("you start on the bottom right", HALF_SCREEN_WIDTH, HALF_SCREEN_HEIGHT +150, 0, null, black);
+		drawString("you must kill all enemies", HALF_SCREEN_WIDTH, HALF_SCREEN_HEIGHT +200, 0, null, black);
+		drawString("to move to the next stage", HALF_SCREEN_WIDTH, HALF_SCREEN_HEIGHT +250, 0, null, black);
+
+
+
 	}
 	
 	public void setMedia() {
@@ -226,13 +235,16 @@ public class Game extends StdGame {
 		}
 	}
 	
-	public void genEnemies(int num, String graphic) {
+	//facing (u)p (d)own (l)eft (r)ight
+	//dir x or y
+	//graphic= the animation you want
+	public void genEnemies(int num, String graphic, char dir, char facing, int health) {
 		for(int i=0; i < num; i++){
 			double randomy = Math.random() * PADDED_HEIGHT + 1;
 			double randomx = Math.random() * PADDED_WIDTH + 1;
 			double randoms = Math.random() * 4 + 1;
 
-			new Enemy(randomx, randomy, randoms, 'x', graphic, 15, this, 'r', true);
+			new Enemy(randomx, randomy, randoms, dir, graphic, health, this, facing, true, null);
 		}
 	}
 	public void setWalls() {
@@ -240,7 +252,10 @@ public class Game extends StdGame {
 		//First World
 		if(currentWorld==WORLD0) {
 			if (!visitedWorld0) {
-				genEnemies(1, "ewalkr");
+				//setGameState("GameOver");
+				//new Enemy(10, 10, 14, 'y', "ewalkb", 50, this, 'd', true, false);
+				//new Enemy(10, pfHeight()-45, 14, 'y', "ewalkb", 50, this, 'd', true, false);
+
 			}
 			if (hero.x >= PADDED_WIDTH){
 				hero.setPos(hero.getLastX(), hero.getLastY());
@@ -264,7 +279,7 @@ public class Game extends StdGame {
 		//Second World
 		else if (currentWorld==WORLD1) {
 			if(!visitedWorld1) {
-				genEnemies(2, "ewalkr");
+				//genEnemies(5, "ewalkr", 'x', 'r', 25);
 			}
 			
 			//Permanent boundries, even after the game is over
@@ -290,13 +305,9 @@ public class Game extends StdGame {
 		//Third World
 		else if(currentWorld==WORLD2) {
 			if(!visitedWorld2) {
-				genEnemies(3, "ewalkr");
+				//genEnemies(40, "ewalkb", 'y', 'r', 15);
 			}
 			
-			//Permanent
-			if(!visitedWorld2) {
-				new Enemy(4, 100, 2, 'x', "ewalkr", 15, this, 'r', true);
-			}
 			if (hero.x <= 0){
 				hero.setPos(hero.getLastX(), hero.getLastY());
 			}
@@ -318,7 +329,7 @@ public class Game extends StdGame {
 		//Fourth World
 		else if(currentWorld==WORLD3) {
 			if(!visitedWorld3) {
-				genEnemies(1, "bwalkr");
+				new Enemy(WIDTH-100, HALF_SCREEN_HEIGHT, 1, 'x', "bwalkr", 600, this, 'r', true, "bwalkl");
 			}
 			//Permanent
 			if (hero.x >= PADDED_WIDTH){

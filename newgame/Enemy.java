@@ -12,14 +12,17 @@ public class Enemy extends JGObject {
 	char facing;
 	double timer=0;
 	boolean automate;
-	public Enemy(double x, double y, double speed, char direction, String graphic, int health, Game engine, char facing, boolean automate) {
+	String returnStr;
+	public Enemy(double x, double y, double speed, char direction, String graphic, int health, Game engine, char facing, boolean automate, String returnStr) {
 		super("enemy",true,x,y,
 				2, graphic,
 				speed, speed, -2 );
+		this.graphic = graphic;
 		this.direction = direction;
 		this.engine = engine;
 		this.facing = facing;
 		this.automate = automate;
+		this.returnStr = returnStr;
 		
 		if (direction=='y') {
 			yspeed=speed;
@@ -42,30 +45,55 @@ public class Enemy extends JGObject {
 	 * This depends on the direction he is facing and the pixel coordinate he's at
 	 * If you writing a similar method remember to use <= or >= NOT ==
 	 * >= or <= will always happen, == will NOT
+	 * 
+	 * facing (u)p (d)own (l)eft (r)ight
+
 	 */
 	public void lurk() {
-		//facing (u)p (d)own (l)eft (r)ight
-		if (y >= engine.pfHeight()-50 && facing == 'd') {
-			setGraphic("ewalkf");
-			facing = 'u';
-			yspeed = -yspeed;
+		if (!returnStr.equals(null)){
+			if (y >= engine.pfHeight()-50 && facing == 'd') {
+				setGraphic(graphic);
+				facing = 'u';
+				yspeed = -yspeed;
+			}
+			else if (y <= 5 && facing == 'u') {
+				setGraphic(graphic);
+				facing = 'd';
+				yspeed = -yspeed;
+			}
+			else if (x >= engine.pfWidth()-50 && facing == 'r') {
+				setGraphic(returnStr);
+				facing = 'l';
+				xspeed = -xspeed;
+			}
+			else if (x <= 5 && facing == 'l') {
+				setGraphic(graphic);
+				facing = 'r';
+				xspeed = -xspeed;
+			}
 		}
-		else if (y <= 5 && facing == 'u') {
-			setGraphic("ewalkb");
-			facing = 'd';
-			yspeed = -yspeed;
+		else{
+			if (y >= engine.pfHeight()-50 && facing == 'd') {
+				setGraphic("ewalkf");
+				facing = 'u';
+				yspeed = -yspeed;
+			}
+			else if (y <= 5 && facing == 'u') {
+				setGraphic("ewalkb");
+				facing = 'd';
+				yspeed = -yspeed;
+			}
+			else if (x >= engine.pfWidth()-50 && facing == 'r') {
+				setGraphic("ewalkl");
+				facing = 'l';
+				xspeed = -xspeed;
+			}
+			else if (x <= 5 && facing == 'l') {
+				setGraphic("ewalkr");
+				facing = 'r';
+				xspeed = -xspeed;
+			}
 		}
-		else if (x >= engine.pfWidth()-50 && facing == 'r') {
-			setGraphic("ewalkl");
-			facing = 'l';
-			xspeed = -xspeed;
-		}
-		else if (x <= 5 && facing == 'l') {
-			setGraphic("ewalkr");
-			facing = 'r';
-			xspeed = -xspeed;
-		}
-		
 	}
 	
 	public void hit(JGObject o) {
