@@ -25,6 +25,8 @@ public class Game extends StdGame {
 	Block block = null;
 	Wall wall = null;
 	
+	int currentWorld = 0; //Start in the lower right
+
 	
 	public Game() {
 		initEngineApplet();
@@ -95,49 +97,6 @@ public class Game extends StdGame {
 		}
 	}
 	
-	public void initMap() {
-		//Setting up background
-		for (int i=0; i<36; i++){
-			setTile(15, i, "p2");
-			setTile(16, i, "p1");
-			setTile(17, i, "p1");
-			setTile(18, i, "p3");
-		}
-		for (int i=18; i<pfWidth(); i++){
-			setTile(i+1, 24, "p4");
-			setTile(i, 25, "p1");
-			setTile(i, 26, "p1");
-			setTile(i+1, 27, "p5");
-		}
-		setTile(18, 24, "p1");	
-		setTile(18, 27, "p1");
-		
-		for (int i=18; i<pfWidth(); i++){
-			setTile(i+1, 32, "p4");
-			setTile(i, 33, "p1");
-			setTile(i, 34, "p1");
-			setTile(i, 35, "p5");
-		}
-
-
-		setTile(15, 34, "p2");
-		setTile(16, 34, "p1");
-		setTile(17, 34, "p1");
-		setTile(15, 35, "p7");
-		setTile(16, 35, "p5");
-		setTile(17, 35, "p5");
-		
-		for (int i=0; i<15; i++){
-			setTile(i, 24, "p4");
-			setTile(i, 25, "p1");
-			setTile(i, 26, "p1");
-			setTile(i, 27, "p5");
-		}
-		setTile(15, 24, "p1");
-		setTile(15, 25, "p1");
-		setTile(15, 26, "p1");
-		setTile(15, 27, "p1");
-	}
 
 	public void initNewLife() {
 		removeObjects(null,0);
@@ -147,9 +106,9 @@ public class Game extends StdGame {
 		block = new Block(200, 100, "boulder1", this, hero, "boulder1");
 		wall = new Wall(300, 200, "boulder4", this, hero, "boulder4");
 		new Enemy(4, gametime, 2, 'x', "ewalkr", 15, this, 'r', true);
-		for (int i=0; i < 30; i ++) {
-			new Wall(10, 20*i, "boulder4", this, hero, "boulder4");
-		}
+//		for (int i=0; i < 30; i ++) {
+//			new Wall(10, 20*i, "boulder4", this, hero, "boulder4");
+//		}
 //		for(int i=0; i < 30; i++){
 //			double randomy = Math.random() * 800 + 1;
 //			double randomx = Math.random() * 100 + 1;
@@ -165,23 +124,55 @@ public class Game extends StdGame {
 		moveObjects();
 		checkCollision(2,1); // enemies hit player
 		checkCollision(4,2); // bullets hit enemies
-		checkCollision(1,5); // player hit rock
+		checkCollision(1,5); // player hit block
 		checkCollision(1,6); // player hit wall
-		checkCollision(2,5); // enemy hit rock
+		checkCollision(2,5); // enemy hit block
+		checkCollision(5,6); // block hit wall
 		//if (gametime>=500 && countObjects("enemy",0)==0) levelDone();
 		checkPosition();
 	}
 	
+	
+	/*
+	 * 0 is the world in the lower right
+	 * 1 is the world in the lower left
+	 * 2 is the world in the upper left
+	 * 3 is the world in the upper right
+	 *  ----------
+	 * | 2  |  3  |
+	 * |----------|
+	 * | 1  |  0  |
+	 *  -----------
+	 */
 	public void checkPosition() {
-		if (!hero.isOnPF(-10, -10) && hero.orientation==9) {
+
+		if (!hero.isOnPF(-10, -10) && hero.orientation==9 && (currentWorld==0 || currentWorld==3)) {
+			
+			//Determine the next world that you will be in
+			if(currentWorld==0){
+				currentWorld = 1;
+			}
+			else{
+				currentWorld=2;
+			}
+			
 			block.setPos(pfWidth() - 50 - (hero.x - block.x), block.getLastY());
 			hero.setPos(pfWidth()-50, hero.getLastY());
 			
 			fillBG("pa");
-			initMap();
+			initMap2();
 			enemy = new Enemy(35, 380, .4, 'x', "ewalkr", 15, this, 'r', true);
 		}
-		else if (!hero.isOnPF(-10, -10) && hero.orientation==3) {
+		else if (!hero.isOnPF(-10, -10) && hero.orientation==3 && (currentWorld==1 || currentWorld==2)) {
+			
+			//Determine the next world that you will be in
+			if(currentWorld==2){
+				currentWorld = 3;
+			}
+			else{
+				currentWorld=0;
+			}
+			
 			block.setPos(0 + (block.x - hero.x), block.getLastY());
 			hero.setPos(0, hero.getLastY());
 			fillBG("pa");
@@ -192,7 +183,16 @@ public class Game extends StdGame {
 				setTile(i, 27, "p5");
 			}
 		}
-		else if (!hero.isOnPF(-10, -10) && hero.orientation==12) {
+		else if (!hero.isOnPF(-10, -10) && hero.orientation==12 && (currentWorld==0 || currentWorld==1)) {
+			
+			//Determine the next world that you will be in
+			if(currentWorld==0){
+				currentWorld = 3;
+			}
+			else{
+				currentWorld=2;
+			}
+			
 			//block.setPos(pfWidth() - 50 - (hero.x - block.x), block.getLastY());
 			hero.setPos(hero.getLastX(), pfHeight()-50);
 			fillBG("pa");
@@ -203,7 +203,16 @@ public class Game extends StdGame {
 				setTile(i, 27, "p5");
 			}
 		}
-		else if (!hero.isOnPF(-10, -10) && hero.orientation==6){
+		else if (!hero.isOnPF(-10, -10) && hero.orientation==6 && (currentWorld==2 || currentWorld==3)){
+			
+			//Determine the next world that you will be in
+			if(currentWorld==2){
+				currentWorld = 1;
+			}
+			else{
+				currentWorld=2;
+			}
+			
 			hero.setPos(hero.getLastX(), 0);
 			fillBG("pa");
 			for (int i=0; i<pfWidth(); i++){
@@ -222,7 +231,6 @@ public class Game extends StdGame {
 	}
 	
 	JGFont scoring_font = new JGFont("Arial",0,8);
-	
 	
 	public static void main(String[] args) {
 		// Run the game at a window size of 800 by 600 pixels.

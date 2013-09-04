@@ -40,8 +40,13 @@ public class Block extends JGObject {
 			ydir = hero.ydir;
 		}
 		//If the enemies hit the block, prevent them from moving forward
-		if (and(o.colid, 2) && o instanceof Enemy) {
+		else if (and(o.colid, 2) && o instanceof Enemy) {
 			o.setPos(o.getLastX(), o.getLastY());
+		}
+		else if (and(o.colid, 6) && o instanceof Wall) {
+			System.out.println("money");
+			setPos(getLastX(), getLastY());
+			hero.setPos(hero.getLastX(), hero.getLastY());
 		}
 	}
 }
