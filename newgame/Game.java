@@ -75,8 +75,7 @@ public class Game extends StdGame {
 			setFrameRate(45, 1);
 		}
 		setHighscores(10, new Highscore(0, "nobody"), 15);
-
-		//dbgShowBoundingBox(true);
+		
 	}
 	
 	public void paintFrameTitle() {
@@ -129,7 +128,7 @@ public class Game extends StdGame {
 		removeObjects(null,0);
 		//Enemies have 'facing' which specifies the direction they are headed in
 		//enemy = new Enemy(4, 380, 2, 'y', "ewalkb", 15, this, 'd', true);
-		hero = new Hero(HALF_SCREEN_WIDTH,pfHeight()-100,5, this, this, 3000);
+		hero = new Hero(HALF_SCREEN_WIDTH,pfHeight()-100,5, this, this, 3000, 0);
 		block = new Block(200, pfHeight()-100, "boulder1", this, hero);
 		item = new Item(ITEM_X, ITEM_Y, "block1", this, hero);
 
@@ -146,6 +145,17 @@ public class Game extends StdGame {
 		checkCol();
 		setWalls();
 		checkPosition();
+	}
+	
+	public void cheats(){
+		//Infinite Life
+		if(getKey(KeyLeft) && getKey(KeyCtrl)){
+			hero.cheatOn = 1;
+		}
+		//Show Bounding Box
+		if(getKey(KeyRight) && getKey(KeyCtrl)){
+			dbgShowBoundingBox(true);
+		}
 	}
 	
 	//Called in the doFrameInGame loop
@@ -240,11 +250,18 @@ public class Game extends StdGame {
 	//graphic= the animation you want
 	public void genEnemies(int num, String graphic, char dir, char facing, int health) {
 		for(int i=0; i < num; i++){
-			double randomy = Math.random() * PADDED_HEIGHT + 1;
-			double randomx = Math.random() * PADDED_WIDTH + 1;
-			double randoms = Math.random() * 4 + 1;
-
-			new Enemy(randomx, randomy, randoms, dir, graphic, health, this, facing, true, null);
+			if(dir=='x'){
+				double randomy = Math.random() * PADDED_HEIGHT + 1;
+				double randomx = Math.random() * PADDED_WIDTH + 1;
+				double randoms = Math.random() * 4 + 1;
+				new Enemy(randomx, randomy, randoms, dir, graphic, health, this, facing, true, "origin");
+			}
+			if(dir=='y'){
+				double randomy = Math.random() * HEIGHT/4 + 1;
+				double randomx = Math.random() * PADDED_WIDTH + 1;
+				double randoms = Math.random() * 4 + 1;
+				new Enemy(randomx, randomy, randoms, dir, graphic, health, this, facing, true, "origin");
+			}
 		}
 	}
 	public void setWalls() {
@@ -253,8 +270,8 @@ public class Game extends StdGame {
 		if(currentWorld==WORLD0) {
 			if (!visitedWorld0) {
 				//setGameState("GameOver");
-				//new Enemy(10, 10, 14, 'y', "ewalkb", 50, this, 'd', true, false);
-				//new Enemy(10, pfHeight()-45, 14, 'y', "ewalkb", 50, this, 'd', true, false);
+				new Enemy(10, 10, 14, 'y', "ewalkb", 50, this, 'd', true, "origin");
+				new Enemy(10, pfHeight()-45, 14, 'y', "ewalkb", 50, this, 'd', true, "origin");
 
 			}
 			if (hero.x >= PADDED_WIDTH){
@@ -279,7 +296,7 @@ public class Game extends StdGame {
 		//Second World
 		else if (currentWorld==WORLD1) {
 			if(!visitedWorld1) {
-				//genEnemies(5, "ewalkr", 'x', 'r', 25);
+				genEnemies(5, "ewalkr", 'x', 'r', 25);
 			}
 			
 			//Permanent boundries, even after the game is over
@@ -305,7 +322,8 @@ public class Game extends StdGame {
 		//Third World
 		else if(currentWorld==WORLD2) {
 			if(!visitedWorld2) {
-				//genEnemies(40, "ewalkb", 'y', 'r', 15);
+				genEnemies(50, "ewalkb", 'y', 'r', 2);
+
 			}
 			
 			if (hero.x <= 0){

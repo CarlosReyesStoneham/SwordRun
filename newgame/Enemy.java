@@ -50,7 +50,7 @@ public class Enemy extends JGObject {
 
 	 */
 	public void lurk() {
-		if (!returnStr.equals(null)){
+		if (!returnStr.equals("origin")){
 			if (y >= engine.pfHeight()-50 && facing == 'd') {
 				setGraphic(graphic);
 				facing = 'u';
@@ -72,7 +72,7 @@ public class Enemy extends JGObject {
 				xspeed = -xspeed;
 			}
 		}
-		else{
+		else if (returnStr.equals("origin")){
 			if (y >= engine.pfHeight()-50 && facing == 'd') {
 				setGraphic("ewalkf");
 				facing = 'u';
@@ -100,13 +100,13 @@ public class Enemy extends JGObject {
 //		System.out.println(this.health);
 		this.health += -1;
         new JGObject ("blood", true, x, y, 0, "blood", 0, 0, 20);
-		if (!(o instanceof Hero)){
-			o.remove();
-		}
+//		if (!(o instanceof Hero)){
+//			o.remove();
+//		}
 		if (this.health==0){
 	        new JGObject ("explo", true, x, y, 0, "explo", 0, 0, 32);
 			remove();
-			o.remove();
+			//o.remove();
 			engine.score += 5;
 		}
 	}
