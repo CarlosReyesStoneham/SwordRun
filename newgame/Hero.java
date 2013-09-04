@@ -201,10 +201,10 @@ public class Hero extends JGObject {
 			obj.yspeed=0;
 		}
 
-		//For picking stuff up
+		//For picking stuff up, in this case treasure
 		else if (and(obj.colid, 7) && obj instanceof Item){
-			health += 4000;
 			obj.remove();
+			engine.setGameState("GameOver");
 		}
 	}
 	

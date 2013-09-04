@@ -130,7 +130,6 @@ public class Game extends StdGame {
 		//enemy = new Enemy(4, 380, 2, 'y', "ewalkb", 15, this, 'd', true);
 		hero = new Hero(HALF_SCREEN_WIDTH,pfHeight()-100,5, this, this, 3000, 0);
 		block = new Block(200, pfHeight()-100, "boulder1", this, hero);
-		item = new Item(ITEM_X, ITEM_Y, "block1", this, hero);
 
 		//wall = new Wall(300, 200, "boulder4", this, hero, "boulder4");
 
@@ -269,7 +268,6 @@ public class Game extends StdGame {
 		//First World
 		if(currentWorld==WORLD0) {
 			if (!visitedWorld0) {
-				//setGameState("GameOver");
 				new Enemy(10, 10, 14, 'y', "ewalkb", 50, this, 'd', true, "origin");
 				new Enemy(10, pfHeight()-45, 14, 'y', "ewalkb", 50, this, 'd', true, "origin");
 
@@ -348,6 +346,8 @@ public class Game extends StdGame {
 		else if(currentWorld==WORLD3) {
 			if(!visitedWorld3) {
 				new Enemy(WIDTH-100, HALF_SCREEN_HEIGHT, 1, 'x', "bwalkr", 600, this, 'r', true, "bwalkl");
+				item = new Item(ITEM_X, ITEM_Y, "block1", this, hero);
+
 			}
 			//Permanent
 			if (hero.x >= PADDED_WIDTH){
@@ -364,7 +364,7 @@ public class Game extends StdGame {
 			if(hero.x <= 0 && countObjects("enemy",0)!=0) {
 				hero.setPos(hero.getLastX(), hero.getLastY());
 			}
-			
+
 			visitedWorld3 = true;
 
 		}
