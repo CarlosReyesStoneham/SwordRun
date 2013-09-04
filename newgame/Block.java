@@ -30,13 +30,18 @@ public class Block extends JGObject {
 	}
 
 	public void hit(JGObject o) {
-		if (and(o.colid, 5)) {
+		//if the hero hits the block, prevent him from moving forward
+		if (and(o.colid, 5) && o instanceof Hero) {
 			flag = true;
 			setGraphic("roll");
 			xspeed = hero.xspeed;
 			yspeed = hero.yspeed;
 			xdir = hero.xdir;
 			ydir = hero.ydir;
+		}
+		//If the enemies hit the block, prevent them from moving forward
+		if (and(o.colid, 2) && o instanceof Enemy) {
+			o.setPos(o.getLastX(), o.getLastY());
 		}
 	}
 }

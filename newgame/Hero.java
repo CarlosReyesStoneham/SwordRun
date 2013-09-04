@@ -1,5 +1,7 @@
 package newgame;
 
+import java.awt.Rectangle;
+
 import jgame.JGObject;
 import jgame.impl.JGEngineInterface;
 import jgame.platform.JGEngine;
@@ -106,25 +108,25 @@ public class Hero extends JGObject {
 	
 	public void machineGun(int i) {
 		//Machine Gun is fully automatic, you can hold down the fire key.
-		if (engine.getKey(stdgame.key_fire) && engine.countObjects("bullet",0) < 50 && i==1) {
+		if (engine.getKey(stdgame.key_fire) && engine.countObjects("bullet",0) < 30 && i==1) {
 			if (orientation == 9) {
-				new JGObject("bullet", true, x, y, 4, "barx", -20, 0, -2);
-				new JGObject("bullet", true, x-10, y-3, 4, "barx", -20, 0, -2);
+				new JGObject("bullet", true, x, y, 4, "barx", -30, 0, -2);
+				new JGObject("bullet", true, x-10, y-3, 4, "barx", -30, 0, -2);
 				//clearKey(key_fire);
 			}
 			if (orientation == 3) {
-				new JGObject("bullet", true, x, y, 4, "barx", 20, 0, -2);
-				new JGObject("bullet", true, x-8, y-3, 4, "barx", 20, 0, -2);
+				new JGObject("bullet", true, x, y, 4, "barx", 30, 0, -2);
+				new JGObject("bullet", true, x-8, y-3, 4, "barx", 30, 0, -2);
 				//clearKey(key_fire);
 			}
 			if (orientation == 12) {
-				new JGObject("bullet", true, x, y, 4, "bary", 0, -20, -2);
-				new JGObject("bullet", true, x-3, y-8, 4, "bary", 0, -20, -2);
+				new JGObject("bullet", true, x, y, 4, "bary", 0, -30, -2);
+				new JGObject("bullet", true, x-3, y-8, 4, "bary", 0, -50, -2);
 				//clearKey(key_fire);
 			}
 			if (orientation == 6){
-				new JGObject("bullet", true, x, y, 4, "bary", 0, 20, -2);
-				new JGObject("bullet", true, x-3, y-8, 4, "bary", 0, 20, -2);
+				new JGObject("bullet", true, x, y, 4, "bary", 0, 30, -2);
+				new JGObject("bullet", true, x-3, y-8, 4, "bary", 0, 50, -2);
 				//clearKey(key_fire);
 			}
 
@@ -177,11 +179,24 @@ public class Hero extends JGObject {
 
 		}
 	}
+	
+//	public void healthBar(int healthX, int healthY, int heathWidth, int healthHeight) {
+//		Rectangle healthBG = new Rectangle(healthX, healthY, healthWidth, healthHeight);
+//
+//        float healthGAWidth = ((float) health / (float) maxHealth) * (float) healthWidth;
+//        Rectangle healthGA = new Rectangle(healthX, healthY, healthGAWidth, healthHeight);
+//
+//	}
+	
 	public void hit(JGObject obj) {
 		if (and(obj.colid,2) && obj instanceof Enemy) {
 			engine.lifeLost();
 		}
-		
+		else if (and(obj.colid, 6)  && obj instanceof Wall) {
+			obj.xspeed=0;
+			obj.yspeed=0;
+		}
+			
 //For picking stuff up
 //		else {
 //			System.out.println(obj.getName());

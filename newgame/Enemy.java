@@ -11,13 +11,15 @@ public class Enemy extends JGObject {
 	char direction;
 	char facing;
 	double timer=0;
-	public Enemy(double x, double y, double speed, char direction, String graphic, int health, Game engine, char facing) {
+	boolean automate;
+	public Enemy(double x, double y, double speed, char direction, String graphic, int health, Game engine, char facing, boolean automate) {
 		super("enemy",true,x,y,
 				2, graphic,
 				speed, speed, -2 );
 		this.direction = direction;
 		this.engine = engine;
 		this.facing = facing;
+		this.automate = automate;
 		
 		if (direction=='y') {
 			yspeed=1;
@@ -30,7 +32,8 @@ public class Enemy extends JGObject {
 	}
 	
 	public void move() {
-		lurk();
+		if(automate==true)
+			lurk();
 	}
 	
 	
@@ -68,6 +71,9 @@ public class Enemy extends JGObject {
 	public void hit(JGObject o) {
 //		System.out.println(this.health);
 		this.health += -1;
+		if (!(o instanceof Hero)){
+			o.remove();
+		}
 		if (this.health==0){
 	        new JGObject ("explo", true, x, y, 0, "explo", 0, 0, 32);
 			remove();

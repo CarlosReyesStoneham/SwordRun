@@ -2,6 +2,7 @@ package newgame;
 
 import jgame.*;
 import java.awt.Cursor;
+
 import jgame.JGColor;
 import jgame.platform.*;
 import newgame.Hero;
@@ -16,33 +17,36 @@ public class Game extends StdGame {
 
 	final static int WIDTH = 800;
 	final static int HEIGHT = 593;
+	final static int PFWIDTH = 50;
+	final static int PFHEIGHT = 37;
 	
 	Hero hero = null;
 	Enemy enemy = null;
 	Block block = null;
-
-
+	Wall wall = null;
+	
+	
 	public Game() {
 		initEngineApplet();
 	}
-
+		
 	public Game(int width, int height) {
 		initEngine(WIDTH, HEIGHT);
-		setPFSize(50, 37); 
+		setPFSize(PFWIDTH, PFHEIGHT); 
 		setViewOffset(1, 1, true);
 		//setPFWrap(true, true, 10, 10);
 	}
-
+	
 	@Override
 	public void initCanvas() {
 		JGColor red = new JGColor(255, 0, 0);
 		JGColor black = new JGColor(0, 0, 0);
-		setCanvasSettings(50,37,16,16,red,black,null);
+		setCanvasSettings(PFWIDTH,PFHEIGHT,16,16,red,black,null);
 	}
 
 	public void initGame() {
 		setMedia();
-		initMap();
+		initMap2();
 		setMouseCursor(new Cursor(Cursor.CROSSHAIR_CURSOR));
 
 		if (isMidlet()) {
@@ -52,7 +56,14 @@ public class Game extends StdGame {
 			setFrameRate(45, 1);
 		}
 		setHighscores(10, new Highscore(0, "nobody"), 15);
-		dbgShowBoundingBox(true);
+
+		//dbgShowBoundingBox(true);
+	}
+	
+	public void paintFrameTitle() {
+		JGColor black = new JGColor(0, 0, 0);
+		JGFont courier = new JGFont("Courier", 0, 32);
+		drawString("Welcome to SwordRun", pfWidth()/2, pfHeight()/2 - 200, 0, courier, black);
 	}
 	
 	public void setMedia() {
@@ -63,6 +74,25 @@ public class Game extends StdGame {
 		setBGImage("grass1");
 		defineMedia("sword.tbl");
 		defineMedia("boulder.tbl");
+	}
+	
+	public void initMap2() {
+		double random = Math.random() * PFHEIGHT + 1;
+		double random2 = Math.random() * PFWIDTH + 1;
+		int starting = (int)random;
+		int starting2 = (int)random2;
+		for(int i=0; i <= PFHEIGHT; i++) {
+			setTile(starting, i, "p2");
+			setTile(starting+1, i, "p1");
+			setTile(starting+2, i, "p1");
+			setTile(starting+3, i, "p3");
+		}
+		for(int i=0; i <= PFWIDTH; i++) {
+			setTile(i, starting2, "p4");
+			setTile(i, starting2+1, "p1");
+			setTile(i, starting2+2, "p1");
+			setTile(i, starting2+3, "p5");
+		}
 	}
 	
 	public void initMap() {
@@ -90,7 +120,6 @@ public class Game extends StdGame {
 		}
 
 
-		setTile(18, 32, "p1");
 		setTile(15, 34, "p2");
 		setTile(16, 34, "p1");
 		setTile(17, 34, "p1");
@@ -108,32 +137,24 @@ public class Game extends StdGame {
 		setTile(15, 25, "p1");
 		setTile(15, 26, "p1");
 		setTile(15, 27, "p1");
-		
-		//Building
-		setTile(20, 10, "b1");
-		setTile(21, 10, "b2");
-		setTile(22, 10, "b3");
-		setTile(23, 10, "b4");
-		
-		setTile(20, 11, "b5");
-		setTile(21, 11, "b6");
-		setTile(22, 11, "b7");
-		setTile(23, 11, "b8");
-		
-		setTile(20, 12, "b9");
-		setTile(21, 12, "b10");
-		setTile(22, 12, "b11");
-		setTile(23, 12, "b12");
 	}
 
 	public void initNewLife() {
 		removeObjects(null,0);
 		//Enemies have 'facing' which specifies the direction they are headed in
-		enemy = new Enemy(4, 380, 2, 'y', "ewalkb", 15, this, 'd');
+		enemy = new Enemy(4, 380, 2, 'y', "ewalkb", 15, this, 'd', true);
 		hero = new Hero(pfWidth()/2,pfHeight()-50,5, this, this);
 		block = new Block(200, 100, "boulder1", this, hero, "boulder1");
-		new Enemy(4, gametime, 2, 'x', "ewalkr", 15, this, 'r');
-
+		wall = new Wall(300, 200, "boulder4", this, hero, "boulder4");
+		new Enemy(4, gametime, 2, 'x', "ewalkr", 15, this, 'r', true);
+		for (int i=0; i < 30; i ++) {
+			new Wall(10, 20*i, "boulder4", this, hero, "boulder4");
+		}
+//		for(int i=0; i < 30; i++){
+//			double randomy = Math.random() * 800 + 1;
+//			double randomx = Math.random() * 100 + 1;
+//			new Enemy(randomx, gametime+randomy, 2, 'x', "ewalkr", 15, this, 'r', true);
+//		}
 	}
 	
 	public void startGameOver() {
@@ -145,7 +166,8 @@ public class Game extends StdGame {
 		checkCollision(2,1); // enemies hit player
 		checkCollision(4,2); // bullets hit enemies
 		checkCollision(1,5); // player hit rock
-
+		checkCollision(1,6); // player hit wall
+		checkCollision(2,5); // enemy hit rock
 		//if (gametime>=500 && countObjects("enemy",0)==0) levelDone();
 		checkPosition();
 	}
@@ -156,14 +178,8 @@ public class Game extends StdGame {
 			hero.setPos(pfWidth()-50, hero.getLastY());
 			
 			fillBG("pa");
-//			for (int i=0; i<pfWidth(); i++){
-//				setTile(i, 24, "p4");
-//				setTile(i, 25, "p1");
-//				setTile(i, 26, "p1");
-//				setTile(i, 27, "p5");
-//			}
 			initMap();
-			enemy = new Enemy(35, 380, .4, 'x', "ewalkr", 15, this, 'r');
+			enemy = new Enemy(35, 380, .4, 'x', "ewalkr", 15, this, 'r', true);
 		}
 		else if (!hero.isOnPF(-10, -10) && hero.orientation==3) {
 			block.setPos(0 + (block.x - hero.x), block.getLastY());
