@@ -24,6 +24,7 @@ public class Game extends StdGame {
 	Enemy enemy = null;
 	Block block = null;
 	Wall wall = null;
+	Item item = null;
 	
 	int currentWorld = 0; //Start in the lower right
 
@@ -104,6 +105,7 @@ public class Game extends StdGame {
 		//enemy = new Enemy(4, 380, 2, 'y', "ewalkb", 15, this, 'd', true);
 		hero = new Hero(pfWidth()/2,pfHeight()-100,5, this, this, 50);
 		block = new Block(200, 100, "boulder1", this, hero, "boulder1");
+		//item = new Item(400, 300, "block1", this, hero, "block1");
 		//wall = new Wall(300, 200, "boulder4", this, hero, "boulder4");
 		//new Enemy(4, gametime, 2, 'x', "ewalkr", 15, this, 'r', true);
 //		for (int i=0; i < 30; i ++) {
@@ -128,6 +130,7 @@ public class Game extends StdGame {
 		checkCollision(1,6); // player hit wall
 		checkCollision(2,5); // enemy hit block
 		checkCollision(5,6); // block hit wall
+		checkCollision(1,7); // player hit health
 		//if (gametime>=500 && countObjects("enemy",0)==0) levelDone();
 		setWalls();
 		checkPosition();

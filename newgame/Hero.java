@@ -205,11 +205,10 @@ public class Hero extends JGObject {
 		}
 			
 //For picking stuff up
-//		else {
-//			System.out.println(obj.getName());
-//			engine.score += 5;
-//			obj.remove();
-//		}
+		else if (and(obj.colid, 7) && obj instanceof Item){
+			health += 5;
+			obj.remove();
+		}
 	}
 	
 }	
