@@ -44,7 +44,6 @@ public class Block extends JGObject {
 			o.setPos(o.getLastX(), o.getLastY());
 		}
 		else if (and(o.colid, 6) && o instanceof Wall) {
-			System.out.println("money");
 			setPos(getLastX(), getLastY());
 			hero.setPos(hero.getLastX(), hero.getLastY());
 		}

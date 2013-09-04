@@ -101,11 +101,11 @@ public class Game extends StdGame {
 	public void initNewLife() {
 		removeObjects(null,0);
 		//Enemies have 'facing' which specifies the direction they are headed in
-		enemy = new Enemy(4, 380, 2, 'y', "ewalkb", 15, this, 'd', true);
-		hero = new Hero(pfWidth()/2,pfHeight()-50,5, this, this);
+		//enemy = new Enemy(4, 380, 2, 'y', "ewalkb", 15, this, 'd', true);
+		hero = new Hero(pfWidth()/2,pfHeight()-100,5, this, this);
 		block = new Block(200, 100, "boulder1", this, hero, "boulder1");
-		wall = new Wall(300, 200, "boulder4", this, hero, "boulder4");
-		new Enemy(4, gametime, 2, 'x', "ewalkr", 15, this, 'r', true);
+		//wall = new Wall(300, 200, "boulder4", this, hero, "boulder4");
+		//new Enemy(4, gametime, 2, 'x', "ewalkr", 15, this, 'r', true);
 //		for (int i=0; i < 30; i ++) {
 //			new Wall(10, 20*i, "boulder4", this, hero, "boulder4");
 //		}
@@ -129,6 +129,7 @@ public class Game extends StdGame {
 		checkCollision(2,5); // enemy hit block
 		checkCollision(5,6); // block hit wall
 		//if (gametime>=500 && countObjects("enemy",0)==0) levelDone();
+		setWalls();
 		checkPosition();
 	}
 	
@@ -161,7 +162,6 @@ public class Game extends StdGame {
 			
 			fillBG("pa");
 			initMap2();
-			enemy = new Enemy(35, 380, .4, 'x', "ewalkr", 15, this, 'r', true);
 		}
 		else if (!hero.isOnPF(-10, -10) && hero.orientation==3 && (currentWorld==1 || currentWorld==2)) {
 			
@@ -213,6 +213,7 @@ public class Game extends StdGame {
 				currentWorld=2;
 			}
 			
+			
 			hero.setPos(hero.getLastX(), 0);
 			fillBG("pa");
 			for (int i=0; i<pfWidth(); i++){
@@ -220,6 +221,41 @@ public class Game extends StdGame {
 				setTile(i, 25, "p1");
 				setTile(i, 26, "p1");
 				setTile(i, 27, "p5");
+			}
+		}
+	}
+	
+	public void setWalls() {
+		if(currentWorld==0) {
+			if (hero.x >= pfWidth()-25){
+				hero.setPos(hero.getLastX(), hero.getLastY());
+			}
+			if (hero.y >= pfHeight()-45){
+				hero.setPos(hero.getLastX(), hero.getLastY());
+			}
+		}
+		else if (currentWorld==1) {
+			if (hero.x <= 0){
+				hero.setPos(hero.getLastX(), hero.getLastY());
+			}
+			if (hero.y >= pfHeight()-45){
+				hero.setPos(hero.getLastX(), hero.getLastY());
+			}
+		}
+		else if(currentWorld==2) {
+			if (hero.x <= 0){
+				hero.setPos(hero.getLastX(), hero.getLastY());
+			}
+			if (hero.y <= 0){
+				hero.setPos(hero.getLastX(), hero.getLastY());
+			}
+		}
+		else if(currentWorld==3) {
+			if (hero.x >= pfWidth()-25){
+				hero.setPos(hero.getLastX(), hero.getLastY());
+			}
+			if (hero.y <= 0){
+				hero.setPos(hero.getLastX(), hero.getLastY());
 			}
 		}
 	}
