@@ -1,3 +1,8 @@
+/*
+ * SwordRun - A game by Carlos Reyes
+ * assisted by the JGame engine.
+ */
+
 package newgame;
 
 import jgame.*;
