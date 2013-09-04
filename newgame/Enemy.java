@@ -71,6 +71,7 @@ public class Enemy extends JGObject {
 	public void hit(JGObject o) {
 //		System.out.println(this.health);
 		this.health += -1;
+        new JGObject ("blood", true, x, y, 0, "blood", 0, 0, 20);
 		if (!(o instanceof Hero)){
 			o.remove();
 		}

@@ -1,3 +1,6 @@
+blood_map	blood.png	0	0	16	16	1	1
+blood	p	0	blood_map	0	-	0	0	16	16
+
 char_map			character.png	0	0	31	48	1	1
 
 mtowawalk1		p	0	char_map	0	-	0	0	31	48

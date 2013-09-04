@@ -107,7 +107,7 @@ public class Game extends StdGame {
 		block = new Block(200, 100, "boulder1", this, hero, "boulder1");
 		//item = new Item(400, 300, "block1", this, hero, "block1");
 		//wall = new Wall(300, 200, "boulder4", this, hero, "boulder4");
-		//new Enemy(4, gametime, 2, 'x', "ewalkr", 15, this, 'r', true);
+		new Enemy(4, gametime, 2, 'x', "ewalkr", 15, this, 'r', true);
 //		for (int i=0; i < 30; i ++) {
 //			new Wall(10, 20*i, "boulder4", this, hero, "boulder4");
 //		}
@@ -134,7 +134,6 @@ public class Game extends StdGame {
 		//if (gametime>=500 && countObjects("enemy",0)==0) levelDone();
 		setWalls();
 		checkPosition();
-		System.out.println(currentWorld);
 	}
 	
 	
