@@ -102,7 +102,7 @@ public class Game extends StdGame {
 		removeObjects(null,0);
 		//Enemies have 'facing' which specifies the direction they are headed in
 		//enemy = new Enemy(4, 380, 2, 'y', "ewalkb", 15, this, 'd', true);
-		hero = new Hero(pfWidth()/2,pfHeight()-100,5, this, this);
+		hero = new Hero(pfWidth()/2,pfHeight()-100,5, this, this, 50);
 		block = new Block(200, 100, "boulder1", this, hero, "boulder1");
 		//wall = new Wall(300, 200, "boulder4", this, hero, "boulder4");
 		//new Enemy(4, gametime, 2, 'x', "ewalkr", 15, this, 'r', true);

@@ -13,10 +13,12 @@ import newgame.Block;
 public class Hero extends JGObject {
 	public Game engine;
 	public Game stdgame;
-	public Hero(double x,double y,double speed, Game engine, Game stdgame) {
+	public int health;
+	public Hero(double x,double y,double speed, Game engine, Game stdgame, int health) {
 		super("hero",true,x,y,1,"mstand4", 0,0,speed,speed,-1);
 		this.engine = engine;
 		this.stdgame = stdgame;
+		this.health = health;
 	}
 	String lastGraphic = "mstand4";
 	int i=0;
@@ -190,7 +192,12 @@ public class Hero extends JGObject {
 	
 	public void hit(JGObject obj) {
 		if (and(obj.colid,2) && obj instanceof Enemy) {
-			engine.lifeLost();
+			if (health == 0){
+				engine.lifeLost();
+			}
+			else {
+				health -= 5;
+			}
 		}
 		else if (and(obj.colid, 6)  && obj instanceof Wall) {
 			obj.xspeed=0;
