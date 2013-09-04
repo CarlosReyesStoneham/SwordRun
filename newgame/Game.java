@@ -19,6 +19,18 @@ public class Game extends StdGame {
 	final static int HEIGHT = 593;
 	final static int PFWIDTH = 50;
 	final static int PFHEIGHT = 37;
+	final static int PADDED_HEIGHT= HEIGHT-45;
+	final static int PADDED_WIDTH = WIDTH-25;
+	final static double HALF_SCREEN_HEIGHT = HEIGHT/2;
+	final static double HALF_SCREEN_WIDTH = WIDTH/2;
+	
+	final static int PF_MARGIN = -10;
+	
+	boolean visitedWorld0 = false;
+	boolean visitedWorld1 = false;
+	boolean visitedWorld2 = false;
+	boolean visitedWorld3 = false;
+	
 	
 	Hero hero = null;
 	Enemy enemy = null;
@@ -49,7 +61,6 @@ public class Game extends StdGame {
 
 	public void initGame() {
 		setMedia();
-		initMap2();
 		setMouseCursor(new Cursor(Cursor.CROSSHAIR_CURSOR));
 
 		if (isMidlet()) {
@@ -66,7 +77,7 @@ public class Game extends StdGame {
 	public void paintFrameTitle() {
 		JGColor black = new JGColor(0, 0, 0);
 		JGFont courier = new JGFont("Courier", 0, 32);
-		drawString("Welcome to SwordRun", pfWidth()/2, pfHeight()/2 - 200, 0, courier, black);
+		drawString("Welcome to SwordRun", HALF_SCREEN_WIDTH, HALF_SCREEN_HEIGHT - 200, 0, courier, black);
 	}
 	
 	public void setMedia() {
@@ -77,6 +88,7 @@ public class Game extends StdGame {
 		setBGImage("grass1");
 		defineMedia("sword.tbl");
 		defineMedia("boulder.tbl");
+		defineMedia("boss.tbl");
 	}
 	
 	public void initMap2() {
@@ -103,19 +115,11 @@ public class Game extends StdGame {
 		removeObjects(null,0);
 		//Enemies have 'facing' which specifies the direction they are headed in
 		//enemy = new Enemy(4, 380, 2, 'y', "ewalkb", 15, this, 'd', true);
-		hero = new Hero(pfWidth()/2,pfHeight()-100,5, this, this, 1000);
+		hero = new Hero(HALF_SCREEN_WIDTH,pfHeight()-100,5, this, this, 3000);
 		block = new Block(200, 100, "boulder1", this, hero, "boulder1");
 		//item = new Item(400, 300, "block1", this, hero, "block1");
 		//wall = new Wall(300, 200, "boulder4", this, hero, "boulder4");
-		//new Enemy(4, gametime, 2, 'x', "ewalkr", 15, this, 'r', true);
-//		for (int i=0; i < 30; i ++) {
-//			new Wall(10, 20*i, "boulder4", this, hero, "boulder4");
-//		}
-//		for(int i=0; i < 30; i++){
-//			double randomy = Math.random() * 800 + 1;
-//			double randomx = Math.random() * 100 + 1;
-//			new Enemy(randomx, gametime+randomy, 2, 'x', "ewalkr", 15, this, 'r', true);
-//		}
+
 	}
 	
 	public void startGameOver() {
@@ -131,7 +135,6 @@ public class Game extends StdGame {
 		checkCollision(2,5); // enemy hit block
 		checkCollision(5,6); // block hit wall
 		checkCollision(1,7); // player hit health
-		//if (gametime>=500 && countObjects("enemy",0)==0) levelDone();
 		setWalls();
 		checkPosition();
 	}
@@ -150,7 +153,7 @@ public class Game extends StdGame {
 	 */
 	public void checkPosition() {
 
-		if (!hero.isOnPF(-10, -10) && hero.orientation==9 && (currentWorld==0 || currentWorld==3)) {
+		if (!hero.isOnPF(PF_MARGIN, PF_MARGIN) && hero.orientation==9 && (currentWorld==0 || currentWorld==3)) {
 			
 			//Determine the next world that you will be in
 			if(currentWorld==0){
@@ -164,9 +167,8 @@ public class Game extends StdGame {
 			hero.setPos(pfWidth()-50, hero.getLastY());
 			
 			fillBG("pa");
-			initMap2();
 		}
-		else if (!hero.isOnPF(-10, -10) && hero.orientation==3 && (currentWorld==1 || currentWorld==2)) {
+		else if (!hero.isOnPF(PF_MARGIN, PF_MARGIN) && hero.orientation==3 && (currentWorld==1 || currentWorld==2)) {
 			
 			//Determine the next world that you will be in
 			if(currentWorld==2){
@@ -179,14 +181,9 @@ public class Game extends StdGame {
 			block.setPos(0 + (block.x - hero.x), block.getLastY());
 			hero.setPos(0, hero.getLastY());
 			fillBG("pa");
-			for (int i=0; i<pfWidth(); i++){
-				setTile(i, 24, "p4");
-				setTile(i, 25, "p1");
-				setTile(i, 26, "p1");
-				setTile(i, 27, "p5");
-			}
+
 		}
-		else if (!hero.isOnPF(-10, -10) && hero.orientation==12 && (currentWorld==0 || currentWorld==1)) {
+		else if (!hero.isOnPF(PF_MARGIN, PF_MARGIN) && hero.orientation==12 && (currentWorld==0 || currentWorld==1)) {
 			
 			//Determine the next world that you will be in
 			if(currentWorld==0){
@@ -199,14 +196,9 @@ public class Game extends StdGame {
 			//block.setPos(pfWidth() - 50 - (hero.x - block.x), block.getLastY());
 			hero.setPos(hero.getLastX(), pfHeight()-50);
 			fillBG("pa");
-			for (int i=0; i<pfWidth(); i++){
-				setTile(i, 24, "p4");
-				setTile(i, 25, "p1");
-				setTile(i, 26, "p1");
-				setTile(i, 27, "p5");
-			}
+
 		}
-		else if (!hero.isOnPF(-10, -10) && hero.orientation==6 && (currentWorld==2 || currentWorld==3)){
+		else if (!hero.isOnPF(PF_MARGIN, PF_MARGIN) && hero.orientation==6 && (currentWorld==2 || currentWorld==3)){
 			
 			//Determine the next world that you will be in
 			if(currentWorld==3){
@@ -219,39 +211,30 @@ public class Game extends StdGame {
 			
 			hero.setPos(hero.getLastX(), 0);
 			fillBG("pa");
-			for (int i=0; i<pfWidth(); i++){
-				setTile(i, 24, "p4");
-				setTile(i, 25, "p1");
-				setTile(i, 26, "p1");
-				setTile(i, 27, "p5");
-			}
+
 		}
 	}
 	
-	
-	boolean visitedWorld0 = false;
-	boolean visitedWorld1 = false;
-	boolean visitedWorld2 = false;
-	boolean visitedWorld3 = false;
+	public void genEnemies(int num, String graphic) {
+		for(int i=0; i < num; i++){
+			double randomy = Math.random() * PADDED_HEIGHT + 1;
+			double randomx = Math.random() * PADDED_WIDTH + 1;
+			double randoms = Math.random() * 4 + 1;
 
+			new Enemy(randomx, randomy, randoms, 'x', graphic, 15, this, 'r', true);
+		}
+	}
 	public void setWalls() {
 		
 		//First World
 		if(currentWorld==0) {
 			if (!visitedWorld0) {
-				for(int i=0; i < 1; i++){
-					double randomy = Math.random() * 700 + 1;
-					double randomx = Math.random() * 100 + 1;
-					double randoms = Math.random() * 4 + 1;
-
-					new Enemy(randomx, randomy, randoms, 'x', "ewalkr", 15, this, 'r', true);
-				}
-				
+				genEnemies(1, "ewalkr");
 			}
-			if (hero.x >= pfWidth()-25){
+			if (hero.x >= PADDED_WIDTH){
 				hero.setPos(hero.getLastX(), hero.getLastY());
 			}
-			if (hero.y >= pfHeight()-45){
+			if (hero.y >= PADDED_HEIGHT){
 				hero.setPos(hero.getLastX(), hero.getLastY());
 			}
 			
@@ -270,20 +253,14 @@ public class Game extends StdGame {
 		//Second World
 		else if (currentWorld==1) {
 			if(!visitedWorld1) {
-				for(int i=0; i < 2; i++){
-					double randomy = Math.random() * 700 + 1;
-					double randomx = Math.random() * 100 + 1;
-					double randoms = Math.random() * 4 + 1;
-
-					new Enemy(randomx, randomy, randoms, 'x', "ewalkr", 15, this, 'r', true);
-				}
+				genEnemies(2, "ewalkr");
 			}
 			
 			//Permanent boundries, even after the game is over
 			if (hero.x <= 0){
 				hero.setPos(hero.getLastX(), hero.getLastY());
 			}
-			if (hero.y >= pfHeight()-45){
+			if (hero.y >= PADDED_HEIGHT){
 				hero.setPos(hero.getLastX(), hero.getLastY());
 			}
 			
@@ -291,7 +268,7 @@ public class Game extends StdGame {
 			if(hero.y <= 0 && countObjects("enemy",0)!=0) {
 				hero.setPos(hero.getLastX(), hero.getLastY());
 			}
-			if(hero.x >= pfWidth()-25 && countObjects("enemy",0)!=0) {
+			if(hero.x >= PADDED_WIDTH && countObjects("enemy",0)!=0) {
 				hero.setPos(hero.getLastX(), hero.getLastY());
 			}
 			
@@ -302,13 +279,7 @@ public class Game extends StdGame {
 		//Third World
 		else if(currentWorld==2) {
 			if(!visitedWorld2) {
-				for(int i=0; i < 3; i++){
-					double randomy = Math.random() * 700 + 1;
-					double randomx = Math.random() * 100 + 1;
-					double randoms = Math.random() * 4 + 1;
-
-					new Enemy(randomx, randomy, randoms, 'x', "ewalkb", 15, this, 'r', true);
-				}
+				genEnemies(3, "ewalkr");
 			}
 			
 			//Permanent
@@ -323,10 +294,10 @@ public class Game extends StdGame {
 			}
 			
 			//Temporary
-			if (hero.y >= pfHeight()-45  && countObjects("enemy",0)!=0) {
+			if (hero.y >= PADDED_HEIGHT  && countObjects("enemy",0)!=0) {
 				hero.setPos(hero.getLastX(), hero.getLastY());
 			}
-			if(hero.x >= pfWidth()-25 && countObjects("enemy",0)!=0) {
+			if(hero.x >= PADDED_WIDTH && countObjects("enemy",0)!=0) {
 				hero.setPos(hero.getLastX(), hero.getLastY());
 			}
 
@@ -336,16 +307,10 @@ public class Game extends StdGame {
 		//Fourth World
 		else if(currentWorld==3) {
 			if(!visitedWorld3) {
-				for(int i=0; i < 4; i++){
-					double randomy = Math.random() * 700 + 1;
-					double randomx = Math.random() * 100 + 1;
-					double randoms = Math.random() * 4 + 1;
-
-					new Enemy(randomx, randomy, randoms, 'x', "ewalkb", 15, this, 'r', true);
-				}
+				genEnemies(1, "bwalkr");
 			}
 			//Permanent
-			if (hero.x >= pfWidth()-25){
+			if (hero.x >= PADDED_WIDTH){
 				hero.setPos(hero.getLastX(), hero.getLastY());
 			}
 			if (hero.y <= 0){
@@ -353,16 +318,13 @@ public class Game extends StdGame {
 			}
 			
 			//Temporary
-			if (hero.y >= pfHeight()-45  && countObjects("enemy",0)!=0) {
+			if (hero.y >= PADDED_HEIGHT  && countObjects("enemy",0)!=0) {
 				hero.setPos(hero.getLastX(), hero.getLastY());
 			}
 			if(hero.x <= 0 && countObjects("enemy",0)!=0) {
 				hero.setPos(hero.getLastX(), hero.getLastY());
 			}
 			
-			if(countObjects("enemy",0)==0) {
-				setGameState("GameOver");
-			}
 			visitedWorld3 = true;
 
 		}
@@ -379,7 +341,7 @@ public class Game extends StdGame {
 	public static void main(String[] args) {
 		// Run the game at a window size of 800 by 600 pixels.
 
-		new Game(800, 593);
+		new Game(WIDTH, HEIGHT);
 	}
 
 }

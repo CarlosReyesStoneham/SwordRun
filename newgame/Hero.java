@@ -207,7 +207,7 @@ public class Hero extends JGObject {
 
 		//For picking stuff up
 		else if (and(obj.colid, 7) && obj instanceof Item){
-			health += 300;
+			health += 1000;
 			obj.remove();
 		}
 	}
