@@ -134,6 +134,7 @@ public class Game extends StdGame {
 		//if (gametime>=500 && countObjects("enemy",0)==0) levelDone();
 		setWalls();
 		checkPosition();
+		System.out.println(currentWorld);
 	}
 	
 	
@@ -209,11 +210,11 @@ public class Game extends StdGame {
 		else if (!hero.isOnPF(-10, -10) && hero.orientation==6 && (currentWorld==2 || currentWorld==3)){
 			
 			//Determine the next world that you will be in
-			if(currentWorld==2){
-				currentWorld = 1;
+			if(currentWorld==3){
+				currentWorld = 0;
 			}
 			else{
-				currentWorld=2;
+				currentWorld=1;
 			}
 			
 			
