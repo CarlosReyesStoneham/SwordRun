@@ -2,6 +2,7 @@ package newgame;
 
 import jgame.*;
 import java.awt.Cursor;
+import java.util.ArrayList;
 
 import jgame.JGColor;
 import jgame.platform.*;
@@ -81,14 +82,12 @@ public class Game extends StdGame {
 	}
 	
 	public void setMedia() {
-		defineMedia("mygame.tbl");
-		defineMedia("outdoors.tbl");
-		defineMedia("character.tbl");
-		defineMedia("game.tbl");
+		String[] tableArray = {"tables/mygame.tbl", "tables/outdoors.tbl", "tables/character.tbl", "tables/game.tbl",
+				"tables/sword.tbl", "tables/boulder.tbl", "tables/boss.tbl"};
+		for(String table : tableArray){
+			defineMedia(table);
+		}
 		setBGImage("grass1");
-		defineMedia("sword.tbl");
-		defineMedia("boulder.tbl");
-		defineMedia("boss.tbl");
 	}
 	
 	public void initMap2() {

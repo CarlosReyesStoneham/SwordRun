@@ -1,0 +1,13 @@
+boulder_map			images/boulder.png	0	0	32	32	1	1
+
+boulder1		p	0	boulder_map	0	-	0	0	32	32
+boulder2		p	0	boulder_map	1	-	0	0	32	32
+boulder3		p	0	boulder_map	2	-	0	0	32	32
+boulder4		p	0	boulder_map	3	-	0	0	32	32
+boulder5		p	0	boulder_map	4	-	0	0	32	32
+boulder6		p	0	boulder_map	5	-	0	0	32	32
+boulder7		p	0	boulder_map	6	-	0	0	32	32
+boulder8		p	0	boulder_map	7	-	0	0	32	32
+boulder9		p	0	boulder_map	8	-	0	0	32	32
+
+roll	boulder1;boulder2;boulder3	0.25

@@ -1,0 +1,79 @@
+blood_map	images/blood.png	0	0	16	16	1	1
+blood	p	0	blood_map	0	-	0	0	16	16
+
+char_map			images/character.png	0	0	31	48	1	1
+
+mtowawalk1		p	0	char_map	0	-	0	0	31	48
+mstand1			p	0	char_map	1	-	0	0	31	48
+mtowawalk2		p	0	char_map	2	-	0	0	31	48
+gtowawalk1		p	0	char_map	3	-	0	0	31	48
+gstand1			p	0	char_map	4	-	0	0	31	48
+gtowawalk2		p	0	char_map	5	-	0	0	31	48
+etowawalk1		p	0	char_map	6	-	0	0	31	48
+estand1			p	0	char_map	7	-	0	0	31	48
+etowawalk2		p	0	char_map	8	-	0	0	31	48
+ctowawalk1		p	0	char_map	9	-	0	0	31	48
+cstand1			p	0	char_map	10	-	0	0	31	48
+ctowawalk2		p	0	char_map	11	-	0	0	31	48
+
+mtowawalk3		p	0	char_map	12	-	0	0	31	48
+mstand2			p	0	char_map	13	-	0	0	31	48
+mtowawalk4		p	0	char_map	14	-	0	0	31	48
+gtowawalk3		p	0	char_map	15	-	0	0	31	48
+gstand2			p	0	char_map	16	-	0	0	31	48
+gtowawalk4		p	0	char_map	17	-	0	0	31	48
+etowawalk3		p	0	char_map	18	-	0	0	31	48
+estand2			p	0	char_map	19	-	0	0	31	48
+etowawalk4		p	0	char_map	20	-	0	0	31	48
+ctowawalk3		p	0	char_map	21	-	0	0	31	48
+cstand2			p	0	char_map	22	-	0	0	31	48
+ctowawalk4		p	0	char_map	23	-	0	0	31	48
+
+mtowawalk5		p	0	char_map	24	-	0	0	31	48
+mstand3			p	0	char_map	25	-	0	0	31	48
+mtowawalk6		p	0	char_map	26	-	0	0	31	48
+gtowawalk5		p	0	char_map	27	-	0	0	31	48
+gstand3			p	0	char_map	28	-	0	0	31	48
+gtowawalk6		p	0	char_map	29	-	0	0	31	48
+etowawalk5		p	0	char_map	30	-	0	0	31	48
+estand3			p	0	char_map	31	-	0	0	31	48
+etowawalk6		p	0	char_map	32	-	0	0	31	48
+ctowawalk5		p	0	char_map	33	-	0	0	31	48
+cstand3			p	0	char_map	34	-	0	0	31	48
+ctowawalk6		p	0	char_map	35	-	0	0	31	48
+
+mtowawalk7		p	0	char_map	36	-	0	0	31	48
+mstand4			p	0	char_map	37	-	0	0	31	48
+mtowawalk8		p	0	char_map	38	-	0	0	31	48
+gtowawalk7		p	0	char_map	39	-	0	0	31	48
+gstand4			p	0	char_map	40	-	0	0	31	48
+gtowawalk8		p	0	char_map	41	-	0	0	31	48
+etowawalk7		p	0	char_map	42	-	0	0	31	48
+estand4			p	0	char_map	43	-	0	0	31	48
+etowawalk8		p	0	char_map	44	-	0	0	31	48
+ctowawalk7		p	0	char_map	45	-	0	0	31	48
+cstand4			p	0	char_map	46	-	0	0	31	48
+ctowawalk8		p	0	char_map	47	-	0	0	31	48
+
+mtowawalk9		p	0	char_map	48	-	0	0	31	48
+mstand5			p	0	char_map	49	-	0	0	31	48
+mtowawalk10		p	0	char_map	50	-	0	0	31	48
+gtowawalk9		p	0	char_map	51	-	0	0	31	48
+gstand5			p	0	char_map	52	-	0	0	31	48
+gtowawalk10		p	0	char_map	53	-	0	0	31	48
+etowawalk9		p	0	char_map	54	-	0	0	31	48
+estand5			p	0	char_map	55	-	0	0	31	48
+etowawalk10		p	0	char_map	56	-	0	0	31	48
+ctowawalk9		p	0	char_map	57	-	0	0	31	48
+cstand5			p	0	char_map	58	-	0	0	31	48
+ctowawalk10		p	0	char_map	59	-	0	0	31	48
+
+walkf	mtowawalk8;mtowawalk7;mtowawalk8	0.3
+walkb	mtowawalk2;mtowawalk1;mtowawalk2	0.3
+walkl	mtowawalk4;mtowawalk3;mtowawalk4	0.3
+walkr	mtowawalk6;mtowawalk5;mtowawalk6	0.3
+
+ewalkf	etowawalk8;etowawalk7;etowawalk8	0.25
+ewalkb	etowawalk2;etowawalk1;etowawalk2	0.25
+ewalkl	etowawalk4;etowawalk3;etowawalk4	0.25
+ewalkr	etowawalk6;etowawalk5;etowawalk6	0.25
